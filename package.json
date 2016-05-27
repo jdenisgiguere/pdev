@@ -1,0 +1,8 @@
+{
+    "name": "plan_directeur_eau_rouyn_noranda",
+    "version": "0.0.1",
+    "main": "index.js",
+    "dependencies": {
+        "express": "4.x"
+    }
+}
