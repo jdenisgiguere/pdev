@@ -1,0 +1,16 @@
+.action_bouton {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    background-color: cornflowerblue;
+    width: 200px;
+    height: 200px;
+    font-family: sans-serif;
+}
+
+.lien_bouton {
+    text-decoration: none;
+    color: inherit;
+}
