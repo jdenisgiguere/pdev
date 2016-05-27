@@ -12,6 +12,8 @@ main.get('/', function(req, res) {
     res.send('Hello world!')
 });
 
+main.use(express.static('static'));
+
 main.listen(port, function() {
     console.log('We are running on port ' + port);
 });
