@@ -27,7 +27,7 @@ main.get('/bandes-riveraines/apprendre-plus', function(req, res) {
 });
 
 main.get('/bandes-riveraines/choisir-vegetaux', function(req, res) {
-    gardenIcon = '/maki/icons/' + 'graden' + '-15.svg';
+    gardenIcon = '/maki/icons/' + 'garden' + '-15.svg';
     res.send('<html><head><link rel="stylesheet" type="text/css" href="/css/bouton.css"></head><body><a href="http://banderiveraine.org/choisir-les-vegetaux/" target="_blank" class="lien_bouton"><div class="action_bouton"><div><img src="' +
         gardenIcon + '" width="80px" height="80px"/> <p>Choisir les végétaux</p></div></div></a></body></html>')
 });
