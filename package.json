@@ -4,6 +4,7 @@
     "main": "index.js",
     "dependencies": {
         "express": "4.x",
-        "maki": "2.x"
+        "maki": "2.x",
+        "bootstrap": "3.x"
     }
 }
