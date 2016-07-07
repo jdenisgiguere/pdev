@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bande riveraine</title>
     <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/bouton.css" />
-    <link rel="stylesheet" type="text/css" href="/maki.font/css/fontello.css" />
+    <link rel="stylesheet" type="text/css" href="/css/bouton.css"/>
+    <link rel="stylesheet" type="text/css" href="/maki.font/css/fontello.css"/>
     <style>
         .carousel-inner > .item > img,
         .carousel-inner > .item > a > img {
@@ -15,154 +15,258 @@
         }
     </style>
 </head>
-<body>
+<body data-spy="scroll" data-target="#side-nav">
 <div class="container">
-<p>
-<h2>Bande riveraines</h2>
-
-<blockquote cite="http://www.banderiveraine.org/">
-    <p>Filtre contre la pollution, contrôle de l’érosion, écosystème performant qui accueille une faune et
-        une flore diversifiée, la bande riveraine est une des stratégies qui permettent d’améliorer la qualité de l’eau
-        dans les lacs.</p>
-    <footer>Fédération interdisciplinaire de l’horticulture ornementale du Québec (FIHOQ)</footer>
-</blockquote>
-
-<h3>Passez à l'action !</h3>
-
-<p>
-<a href="http://banderiveraine.org/" class="btn btn-info btn-lg">
-    <i class="glyphicon icon-library-15"></i>En apprendre davantage sur les bandes riveraines</a>
-    </p>
-
-<p>
-    <a href="http://www.obvt.ca/fichiers/VRN-OBVT-GECO_repertoire_vegetaux_bandes_riveraines2013.pdf" class="btn btn-info btn-lg">
-    <i class="glyphicon icon-garden-15"></i>Choisir les végétaux</a>
-</p>
-
-<p>
-    <a href="http://banderiveraine.org/planter/" class="btn btn-info btn-lg">
-        <i class="glyphicon icon-farm-15"></i>Techniques de plantation</a>
-</p>
-
-<p>
-    <a href="http://www.mddelcc.gouv.qc.ca/eau/rives/fiche-tech-stabilisation-rives.pdf" class="btn btn-info btn-lg">
-        <i class="glyphicon icon-dam-15"></i>Prévenir l'érosion et stabiliser les berges</a>
-</p>
-
-
-    <h3>Rôles de la bande riveraine</h3>
-
-    <p>La végétation présente sur la bande riveraine offre une foule de services écologiques au lac. Elle : </p>
-
-    <ul>
-        <li>retient les sédiments;</li>
-        <li>stabilise les berges;</li>
-        <li>régularise la température de l'eau;</li>
-        <li>crée des habitats pour les poissons.</li>
-    </ul>
-
-    <p>Source: <a href="http://www.mddelcc.gouv.qc.ca/EAU/eco_aqua/IQBR/fonctions.htm">Fonctions écologiques de la bande riveraine</a>, ministère du Développement durable, Environnement et Lutte contre les changements climatiques.</p>
-
-    <div id="bandeRiverainesImg" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-            <li data-target="#bandeRiverainesImg" data-slide-to="0" class="active"></li>
-            <li data-target="#bandeRiverainesImg" data-slide-to="1"></li>
-        </ol>
-
-        <div class="carousel-inner" role="listbox">
-            <div class="item active">
-                <a href="https://commons.wikimedia.org/wiki/File:Pimmit_bank_erosion.JPG#/media/File:Pimmit_bank_erosion.JPG">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/8f/Pimmit_bank_erosion.JPG"
-                         alt="Pimmit bank erosion.JPG" height="441" width="655"></a>
-                <div class="carousel-caption">
-                    <h5>Stabilisation des berges</h5>
-                    <p>crédit: <a
-                            href="//commons.wikimedia.org/w/index.php?title=User:Ivy_Main&amp;action=edit&amp;redlink=1"
-                            class="new" title="User:Ivy Main (page does not exist)">Ivy Main</a> - <span
-                            class="int-own-work" lang="en">oeuvre personnelle</span>, <a
-                            href="http://creativecommons.org/licenses/by-sa/3.0"
-                            title="Creative Commons Attribution-Share Alike 3.0">CC BY-SA 3.0</a>,
-                        https://commons.wikimedia.org/w/index.php?curid=11842103</p>
-
-                </div>
-
-            </div>
-            <div class="item">
-                <a href="https://commons.wikimedia.org/wiki/File:Riparian_strip.jpg#/media/File:Riparian_strip.jpg"><img
-                        src="https://upload.wikimedia.org/wikipedia/commons/7/71/Riparian_strip.jpg"
-                        alt="Riparian strip.jpg"></a>
-                <div class="carousel-caption">
-                    <h5>Rétention des sédiments</h5>
-                    <p>crédit : U.S. Department of Agriculture - <a rel="nofollow" class="external autonumber"
-                                                                    href="http://web.archive.org/web/20051220220554/http://www.oh.nrcs.usda.gov/programs/Lake_Erie_Buffer/images/riparian_putnam_co.jpg">[1]</a>
-                        (<a rel="nofollow" class="external text"
-                            href="http://web.archive.org/web/20050415211924/http://www.oh.nrcs.usda.gov/programs/lake_erie_buffer/">contexte
-                            (anglais)</a>), Domaine public, https://commons.wikimedia.org/w/index.php?curid=244190</p>
-
-                </div>
-
-            </div>
+    <div class="row">
+        <div class="col-md-3" id="side-nav">
+            <ul class="nav nav-list" data-spy="affix">
+                <li class="active"><a href="#action">Passez à l'action !</a></li>
+                <li><a href="#roles">Rôles des bandes riveraines</a></li>
+                <li><a href="#evolution">Évolution de la bande riveraine</a></li>
+                <li><a href="#plan_d_action">Plan d'action</a></li>
+            </ul>
         </div>
+        <div class="col-md-9">
+            <h2>Bande riveraines</h2>
 
-        <!-- Left and right controls -->
-        <a class="left carousel-control" href="#bandeRiverainesImg" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#bandeRiverainesImg" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
+            <blockquote cite="http://www.banderiveraine.org/">
+                <p>Filtre contre la pollution, contrôle de l’érosion, écosystème performant qui accueille une faune et
+                    une flore diversifiée, la bande riveraine est une des stratégies qui permettent d’améliorer la
+                    qualité de l’eau
+                    dans les lacs.</p>
+                <footer>Fédération interdisciplinaire de l’horticulture ornementale du Québec (FIHOQ)</footer>
+            </blockquote>
 
-<h3>Évolution de l'état de la bande riveraine</h3>
+            <div id="action">
+                <h3>Passez à l'action !</h3>
 
-    <p>En 2010, 17% des riveraines et riverains avaient une bande riveraine entrenue à 80% ou plus. Ce pourcentage
-        avaient diminué à 2% en 2013. En 2013, la partie entretenue représentait 20 % ou moins de la superficie de la
-        bande riveraine chez 74% des riverains.</p>
+                <p>
+                    <a href="http://banderiveraine.org/" class="btn btn-info btn-lg">
+                        <i class="glyphicon icon-library-15"></i>En apprendre davantage sur les bandes riveraines</a>
+                </p>
 
-<div style="width:40%; height: auto">
-    <a href="https://plot.ly/~talleo_rouyn_noranda/2/" target="_blank" title="0 à 20%, 20% à 40%, 40% à 60%, 60% à 80%, 80% et plus" style="display: block; text-align: center;"><img src="https://plot.ly/~talleo_rouyn_noranda/2.png" alt="0 à 20%, 20% à 40%, 40% à 60%, 60% à 80%, 80% et plus" style="max-width: 100%;width: 1620px;"  width="1620" onerror="this.onerror=null;this.src='https://plot.ly/404.png';" /></a>
-    <script data-plotly="talleo_rouyn_noranda:2"  src="https://plot.ly/embed.js" async></script>
-</div>
+                <p>
+                    <a href="http://www.obvt.ca/fichiers/VRN-OBVT-GECO_repertoire_vegetaux_bandes_riveraines2013.pdf"
+                       class="btn btn-info btn-lg">
+                        <i class="glyphicon icon-garden-15"></i>Choisir les végétaux</a>
+                </p>
+
+                <p>
+                    <a href="http://banderiveraine.org/planter/" class="btn btn-info btn-lg">
+                        <i class="glyphicon icon-farm-15"></i>Techniques de plantation</a>
+                </p>
+
+                <p>
+                    <a href="http://www.mddelcc.gouv.qc.ca/eau/rives/fiche-tech-stabilisation-rives.pdf"
+                       class="btn btn-info btn-lg">
+                        <i class="glyphicon icon-dam-15"></i>Prévenir l'érosion et stabiliser les berges</a>
+                </p>
 
 
+            </div>
 
-<div style="width:40%; height: auto">
-    <a href="https://plot.ly/~talleo_rouyn_noranda/4/" target="_blank" title="0 à 20%, 20% à 40%, 40% à 60%, 60% à 80%, 80% et plus" style="display: block; text-align: center;"><img src="https://plot.ly/~talleo_rouyn_noranda/4.png" alt="0 à 20%, 20% à 40%, 40% à 60%, 60% à 80%, 80% et plus" style="max-width: 100%;width: 1620px;"  width="1620" onerror="this.onerror=null;this.src='https://plot.ly/404.png';" /></a>
-    <script data-plotly="talleo_rouyn_noranda:4"  src="https://plot.ly/embed.js" async></script>
-</div>
+            <div id="roles">
+                <h3>Rôles de la bande riveraine</h3>
+
+                <p>La végétation présente sur la bande riveraine offre une foule de services écologiques au lac. Elle
+                    : </p>
+
+                <ul>
+                    <li>retient les sédiments;</li>
+                    <li>stabilise les berges;</li>
+                    <li>régularise la température de l'eau;</li>
+                    <li>crée des habitats pour les poissons.</li>
+                </ul>
+
+                <p>Source: <a href="http://www.mddelcc.gouv.qc.ca/EAU/eco_aqua/IQBR/fonctions.htm">Fonctions écologiques
+                    de
+                    la bande riveraine</a>, ministère du Développement durable, Environnement et Lutte contre les
+                    changements climatiques.</p>
+
+                <div id="bandeRiverainesImg" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#bandeRiverainesImg" data-slide-to="0" class="active"></li>
+                        <li data-target="#bandeRiverainesImg" data-slide-to="1"></li>
+                    </ol>
+
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item active">
+                            <a href="https://commons.wikimedia.org/wiki/File:Pimmit_bank_erosion.JPG#/media/File:Pimmit_bank_erosion.JPG">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/8f/Pimmit_bank_erosion.JPG"
+                                     alt="Pimmit bank erosion.JPG" height="441" width="655"></a>
+                            <div class="carousel-caption">
+                                <h5>Stabilisation des berges</h5>
+                                <p>crédit: <a
+                                        href="//commons.wikimedia.org/w/index.php?title=User:Ivy_Main&amp;action=edit&amp;redlink=1"
+                                        class="new" title="User:Ivy Main (page does not exist)">Ivy Main</a> - <span
+                                        class="int-own-work" lang="en">oeuvre personnelle</span>, <a
+                                        href="http://creativecommons.org/licenses/by-sa/3.0"
+                                        title="Creative Commons Attribution-Share Alike 3.0">CC BY-SA 3.0</a>,
+                                    https://commons.wikimedia.org/w/index.php?curid=11842103</p>
+
+                            </div>
+
+                        </div>
+                        <div class="item">
+                            <a href="https://commons.wikimedia.org/wiki/File:Riparian_strip.jpg#/media/File:Riparian_strip.jpg"><img
+                                    src="https://upload.wikimedia.org/wikipedia/commons/7/71/Riparian_strip.jpg"
+                                    alt="Riparian strip.jpg"></a>
+                            <div class="carousel-caption">
+                                <h5>Rétention des sédiments</h5>
+                                <p>crédit : U.S. Department of Agriculture - <a rel="nofollow"
+                                                                                class="external autonumber"
+                                                                                href="http://web.archive.org/web/20051220220554/http://www.oh.nrcs.usda.gov/programs/Lake_Erie_Buffer/images/riparian_putnam_co.jpg">[1]</a>
+                                    (<a rel="nofollow" class="external text"
+                                        href="http://web.archive.org/web/20050415211924/http://www.oh.nrcs.usda.gov/programs/lake_erie_buffer/">contexte
+                                        (anglais)</a>), Domaine public,
+                                    https://commons.wikimedia.org/w/index.php?curid=244190</p>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Left and right controls -->
+                    <a class="left carousel-control" href="#bandeRiverainesImg" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#bandeRiverainesImg" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+
+            <section id="evolution">
+                <h3>Évolution de l'état de la bande riveraine</h3>
+
+                <p>En 2010, 17% des riveraines et riverains avaient une bande riveraine entrenue à 80% ou plus. Ce
+                    pourcentage
+                    avaient diminué à 2% en 2013. En 2013, la partie entretenue représentait 20 % ou moins de la
+                    superficie
+                    de la
+                    bande riveraine chez 74% des riverains.</p>
+
+                <div style="width:80%; height: auto">
+                    <a href="http://plot.ly/~talleo_rouyn_noranda/2/" target="_blank"
+                       title="0 à 20%, 20% à 40%, 40% à 60%, 60% à 80%, 80% et plus"
+                       style="display: block; text-align: center;"><img
+                            src="http://plot.ly/~talleo_rouyn_noranda/2.png"
+                            alt="0 à 20%, 20% à 40%, 40% à 60%, 60% à 80%, 80% et plus"
+                            style="max-width: 100%;width: 1620px;" width="1620"
+                            onerror="this.onerror=null;this.src='http://plot.ly/404.png';"/></a>
+                    <script data-plotly="talleo_rouyn_noranda:2" src="http://plot.ly/embed.js" async></script>
+                </div>
 
 
-    <h3>Plan d'action</h3>
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>Action</th>
-            <th>Responsable</th>
-            <th>Partenaires</th>
-            <th>Fréquence</th>
-            <th>Échéancier</th>
-            <th>État</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>Application de la règlementation en vigueur</td>
-            <td>Ville</td>
-            <td></td>
-            <td><span class="glyphicon glyphicon-refresh" aria-hidden="true" style="color:green"></span> En continu</td>
-            <td><span class="glyphicon glyphicon-refresh" aria-hidden="true" style="color:green"></span> En continu</td>
-            <td><span class="glyphicon glyphicon-refresh" aria-hidden="true" style="color:green"></span> En continu</td>
-        </tr>
-        </tbody>
-    </table>
+                <div style="width:80%; height: auto">
+                    <a href="http://plot.ly/~talleo_rouyn_noranda/4/" target="_blank"
+                       title="0 à 20%, 20% à 40%, 40% à 60%, 60% à 80%, 80% et plus"
+                       style="display: block; text-align: center;"><img
+                            src="http://plot.ly/~talleo_rouyn_noranda/4.png"
+                            alt="0 à 20%, 20% à 40%, 40% à 60%, 60% à 80%, 80% et plus"
+                            style="max-width: 100%;width: 1620px;" width="1620"
+                            onerror="this.onerror=null;this.src='http://plot.ly/404.png';"/></a>
+                    <script data-plotly="talleo_rouyn_noranda:4" src="http://plot.ly/embed.js" async></script>
+                </div>
+            </section>
 
+            <section id="plan_d_action">
+
+                <h3>Plan d'action</h3>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Responsable</th>
+                        <th>Partenaires</th>
+                        <th>Fréquence</th>
+                        <th>Échéancier</th>
+                        <th>État</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Application de la règlementation en vigueur</td>
+                        <td>Ville</td>
+                        <td></td>
+                        <td><span class="glyphicon glyphicon-refresh" aria-hidden="true" style="color:green"></span> En
+                            continu
+                        </td>
+                        <td><span class="glyphicon glyphicon-refresh" aria-hidden="true" style="color:green"></span> En
+                            continu
+                        </td>
+                        <td><span class="glyphicon glyphicon-refresh" aria-hidden="true" style="color:green"></span> En
+                            continu
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Caractériser les bandes riveraines</td> <!-- Action -->
+                        <td>Ville</td> <!-- Responsable -->
+                        <td></td> <!-- Partenaires -->
+                        <td>1 fois</td> <!-- Fréquence -->
+                        <td><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:green"></span> 2016</td> <!-- Échéancier -->
+                        <td><span class="glyphicon glyphicon-calendar" aria-hidden="true" style="color:green"></span> Planifié</td> <!-- État -->
+                    </tr>
+                    <tr>
+                        <td>Faire un dépliant pour les nouveaux arrivants</td> <!-- Action -->
+                        <td>Comité environnement</td> <!-- Responsable -->
+                        <td>Ville</td> <!-- Partenaires -->
+                        <td>1 fois</td> <!-- Fréquence -->
+                        <td><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:green"></span> Automne 2016</td> <!-- Échéancier -->
+                        <td><span class="glyphicon glyphicon-calendar" aria-hidden="true" style="color:green"></span> Planifié</td> <!-- État -->
+                    </tr>
+                    <tr>
+                        <td>Distribution de coupons rabais pour achat de végétaux en pépinière</td> <!-- Action -->
+                        <td>Comité environnement</td> <!-- Responsable -->
+                        <td></td> <!-- Partenaires -->
+                        <td>1 fois</td> <!-- Fréquence -->
+                        <td>2013</td> <!-- Échéancier -->
+                        <td><span class="glyphicon glyphicon-check" aria-hidden="true" style="color:green"></span> Réalisé</td> <!-- État -->
+                    </tr>
+                    <tr>
+                        <td>Formation en groupe sur aménagement des bandes riveraines</td> <!-- Action -->
+                        <td>Ville</td> <!-- Responsable -->
+                        <td>GECO et CBVRB</td> <!-- Partenaires -->
+                        <td>1 fois</td> <!-- Fréquence -->
+                        <td>Printemps 2009</td> <!-- Échéancier -->
+                        <td><span class="glyphicon glyphicon-check" aria-hidden="true" style="color:green"></span> Réalisé</td> <!-- État -->
+                    </tr>
+                    <tr>
+                        <td>Réalisation de plans d'aménagement de bandes riveraines et formation personnalisée</td> <!-- Action -->
+                        <td>GECO</td> <!-- Responsable -->
+                        <td></td> <!-- Partenaires -->
+                        <td>3 fois</td> <!-- Fréquence -->
+                        <td>2010 2011 2012</td> <!-- Échéancier -->
+                        <td><span class="glyphicon glyphicon-check" aria-hidden="true" style="color:green"></span> Réalisé</td> <!-- État -->
+                    </tr>
+                    <tr>
+                        <td>Règlement sur la renaturalisation des bandes riveraines</td> <!-- Action -->
+                        <td>Ville</td> <!-- Responsable -->
+                        <td></td> <!-- Partenaires -->
+                        <td>1 fois</td> <!-- Fréquence -->
+                        <td>Automne 2012</td> <!-- Échéancier -->
+                        <td><span class="glyphicon glyphicon-check" aria-hidden="true" style="color:green"></span> Réalisé<</td> <!-- État -->
+                    </tr>
+                    <tr>
+                        <td>Distribution d'arbres</td> <!-- Action -->
+                        <td>Comité environnement</td> <!-- Responsable -->
+                        <td>AFAT</td> <!-- Partenaires -->
+                        <td><span class="glyphicon glyphicon-refresh" aria-hidden="true" style="color:green"></span> Au besoin</td> <!-- Fréquence -->
+                        <td></td> <!-- Échéancier -->
+                        <td></td> <!-- État -->
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </div> <!-- End of row-->
 </div>
 <!-- Bootstrap core JavaScript
    ================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
