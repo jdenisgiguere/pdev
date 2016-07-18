@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Qualité de l'écosystème aquatique</title>
     <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/bouton.css" />
     <link rel="stylesheet" type="text/css" href="/maki.font/css/fontello.css" />
 </head>
 <body>
@@ -20,8 +19,73 @@
     <a href="http://www.mddelcc.gouv.qc.ca/EAU/rsvl/index.htm">Réseau de surveillance volontaire des lacs (RSVL)</a>.
 </p>
 
-<iframe width="900" height="800" frameborder="0" scrolling="no" src="https://plot.ly/~talleo_rouyn_noranda/8.embed"></iframe>
 
+    <h4>Phosphore total</h4>
+
+    <svg height="220" width="600">
+    <defs>
+        <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:rgb(105, 133, 251);stop-opacity:1" />
+            <stop offset="100%" style="stop-color:rgb(0, 101, 0);stop-opacity:1" />
+        </linearGradient>
+    </defs>
+
+
+
+        <g class="echelle" transform="translate(50,80)">
+            <rect width="500" height="100" fill="url(#grad2)" />
+        </g>
+
+        <g class="mesure" transform="translate(50,80)">
+            <!-- x=221 - (10 / 2) = 216-->
+            <rect x="216" y="50" height="10" width="10" fill="rgb(255,255,0)" />
+        </g>
+
+        <g class="legende" >
+
+            <text x="50" y="55" fill="black" text-anchor="middle">Ultra-<tspan x="50" y="75" text-anchor="middle">oligotrophe</tspan></text>
+            <text x="133" y="65" fill="black" text-anchor="middle">Oligotrophe</text>
+            <path id="oligo-vs-meso" d="M 216 80 L 216 180 Z" stroke="black" stroke-width="2" fill="none"  />
+            <text x="216" y="205" text-anchor="middle">10</text>
+            <text x="300" y="65" fill="black" text-anchor="middle">Mésotrophe</text>
+            <path id="meso-vs-eu" d="M 382 80 L 382 180 Z" stroke="black" stroke-width="2" fill="none"  />
+            <text x="382" y="205" text-anchor="middle">30</text>
+            <text x="466" y="65" fill="black" text-anchor="middle">Eutrophe</text>
+            <text x="550" y="55" fill="black" text-anchor="middle">Hyper-<tspan x="550" y="75" text-anchor="middle">eutrophe</tspan></text>
+        </g>
+
+    </svg>
+
+    <p>Moyenne des trois mesures du phosphore total (μg / l) effecutées à l'été 2014.</p>
+
+
+
+    <section id="plan_d_action">
+
+        <h3>Plan d'action</h3>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Action</th>
+                <th>Responsable</th>
+                <th>Partenaires</th>
+                <th>Fréquence</th>
+                <th>Échéancier</th>
+                <th>État</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td></td> <!-- Action -->
+                <td></td> <!-- Responsable -->
+                <td></td> <!-- Partenaires -->
+                <td></td> <!-- Fréquence -->
+                <td></td> <!-- Échéancier -->
+                <td></td> <!-- État -->
+            </tr>
+            </tbody>
+        </table>
+    </section>
 </div>
 
 <!-- Bootstrap core JavaScript
