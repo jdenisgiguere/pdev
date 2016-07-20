@@ -1,11 +1,14 @@
-
 var ActionLine = React.createClass({
+    handleClick: function() {
+        deleteAction(this.props._id);
+    },
+    
     render: function() {
         return (
             <tr>
             <td>{this.props.description}</td>
         <td>E</td>
-        <td>-</td>
+        <td><a href="#" onClick={this.handleClick}>-</a></td>
         </tr>
         );
     }
@@ -48,7 +51,7 @@ var ActionList = React.createClass({
     render: function() {
         var actionsLines = this.props.data.map(function(action) {
             return (
-                <ActionLine description={action.description} key={action._id} />
+                <ActionLine description={action.description} key={action._id} _id={action._id} />
             );
         });
 

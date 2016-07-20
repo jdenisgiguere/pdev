@@ -23,3 +23,12 @@ function loadAllActions(actionBox) {
         actionBox.setState({data: data});
     })
 }
+
+function deleteAction(_id) {
+    actionDB.get(_id, function(err, doc) {
+        if(err) { return console.log(err); }
+        actionDB.remove(doc, function(err, resp) {
+            if (err) { return console.log(err); }
+        });
+    });
+}
