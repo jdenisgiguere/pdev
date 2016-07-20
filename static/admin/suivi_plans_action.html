@@ -7,19 +7,54 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.2.0/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.2.0/react-dom.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <script src="//cdn.jsdelivr.net/pouchdb/5.4.5/pouchdb.min.js"></script>
+    <script src="persistance.js"></script>
 </head>
 <body>
 
 <div class="container">
     <div id="actionContainer"></div>
     <script type="text/babel">
+
+        var ActionLine = React.createClass({
+            render: function() {
+                return (
+                        <tr>
+                            <td>{this.props.description}</td>
+                            <td>E</td>
+                            <td>-</td>
+                        </tr>
+                );
+            }
+        });
+
         var ActionBox = React.createClass({
+            loadActionsFromDatabase: function() {
+                loadAllActions(this);
+            },
+
+            handleActionSubmit: function(action) {
+                var actions = this.state.data;
+                var newActions = actions.concat([action]);
+                this.setState({data: newActions});
+
+                addActions(action.description);
+            },
+
+            getInitialState: function() {
+                return {data: []}
+            },
+
+            componentDidMount: function() {
+              this.loadActionsFromDatabase()
+            },
+
             render: function() {
                 return (
                         <div id="actionBox">
                             <h2>Actions</h2>
-                            <ActionList />
-                            <ActionDetail />
+                            <ActionList data={this.state.data} />
+                            <ActionDetail onActionSubmit={this.handleActionSubmit}/>
                         </div>
                 );
             }
@@ -27,6 +62,12 @@
 
         var ActionList = React.createClass({
             render: function() {
+                var actionsLines = this.props.data.map(function(action) {
+                    return (
+                            <ActionLine description={action.description} key={action._id} />
+                    );
+                });
+
                 return (
                         <div className="actionList">
                             <table className="table table-hover">
@@ -38,11 +79,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Action #1</td>
-                                        <td>E</td>
-                                        <td>-</td>
-                                    </tr>
+                                    {actionsLines}
                                 </tbody>
                             </table>
                         </div>
@@ -59,11 +96,21 @@
                 this.setState({description: e.target.value});
             },
 
+            handleSubmit: function(e) {
+                e.preventDefault();
+                var description = this.state.description.trim();
+                if (!description) {
+                    return;
+                }
+                this.props.onActionSubmit({description: description});
+                this.setState({description: ''});
+            },
+
             render: function() {
                 return (
                         <div className="actionDetail">
                             <h3>Édition d'une ation</h3>
-                            <form role="form">
+                            <form role="form" onSubmit={this.handleSubmit}>
 
                                 <div className="form-group">
                                     <label htmlFor="actionDescription">Description de l'action</label>
