@@ -11,9 +11,28 @@
 <body>
 
 <div class="container">
-    <div id="actionDetail"></div>
+    <div id="actionContainer"></div>
     <script type="text/babel">
+        var ActionBox = React.createClass({
+            render: function() {
+                return (
+                        <div id="actionBox">
+                            <h2>Actions</h2>
+                            <ActionDetail />
+                        </div>
+                );
+            }
+        });
+
         var ActionDetail = React.createClass({
+            getInitialState: function() {
+                return {description: 'ABC'};
+            },
+
+            handleDescriptionChange: function(e) {
+                this.setState({description: e.target.value});
+            },
+
             render: function() {
                 return (
                         <div className="actionDetail">
@@ -21,11 +40,12 @@
                             <form role="form">
                                 <label htmlFor="actionDescription">Description de l'action</label>
                                 <div className="input-group">
-                                    <input type="text" className="form-control" id="actionDescription" />
+                                    <input type="text" className="form-control" placeholder="Description de l'action"
+                                           value={this.state.description} onChange={this.handleDescriptionChange}
+                                           id="actionDescription"/>
                                 </div>
                                 <button type="submit" className="btn btn-default">Soumettre</button>
                             </form>
-
 
 
                         </div>
@@ -36,8 +56,8 @@
 
 
         ReactDOM.render(
-                <ActionDetail />,
-                document.getElementById('actionDetail')
+                <ActionBox />,
+                document.getElementById('actionContainer')
         );
     </script>
 </div>
