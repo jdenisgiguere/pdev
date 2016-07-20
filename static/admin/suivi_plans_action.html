@@ -18,11 +18,37 @@
                 return (
                         <div id="actionBox">
                             <h2>Actions</h2>
+                            <ActionList />
                             <ActionDetail />
                         </div>
                 );
             }
         });
+
+        var ActionList = React.createClass({
+            render: function() {
+                return (
+                        <div className="actionList">
+                            <table className="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Description</th>
+                                        <th>Modifier</th>
+                                        <th>Supprimer</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Action #1</td>
+                                        <td>E</td>
+                                        <td>-</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                );
+            }
+        })
 
         var ActionDetail = React.createClass({
             getInitialState: function() {
@@ -36,10 +62,11 @@
             render: function() {
                 return (
                         <div className="actionDetail">
-                            <h3>Action</h3>
+                            <h3>Édition d'une ation</h3>
                             <form role="form">
-                                <label htmlFor="actionDescription">Description de l'action</label>
-                                <div className="input-group">
+
+                                <div className="form-group">
+                                    <label htmlFor="actionDescription">Description de l'action</label>
                                     <input type="text" className="form-control" placeholder="Description de l'action"
                                            value={this.state.description} onChange={this.handleDescriptionChange}
                                            id="actionDescription"/>
