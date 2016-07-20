@@ -18,7 +18,7 @@ function loadAllActions(actionBox) {
     actionDB.allDocs({include_docs: true, descending: true}, function(err, doc) {
         var data = [];
         doc.rows.forEach(function(element) {
-            data.push({description: element.doc.description, _id: element.doc.id});
+            data.push({description: element.doc.description, _id: element.doc._id});
         })
         actionBox.setState({data: data});
     })
