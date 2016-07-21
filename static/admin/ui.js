@@ -7,8 +7,8 @@ var ActionLine = React.createClass({
         return (
             <tr>
                 <td>{this.props.description}</td>
-                <td>E</td>
-                <td><a href="#" onClick={this.handleClick}>-</a></td>
+                <td><span className="glyphicon glyphicon-pencil" aria-hidden="true" style={{color:"black"}} /></td>
+                <td><a href="#" onClick={this.handleClick}><span className="glyphicon glyphicon-remove" aria-hidden="true" style={{color:"red"}} /></a></td>
             </tr>
         );
     }
