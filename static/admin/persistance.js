@@ -1,11 +1,11 @@
 var actionDB = new PouchDB('actions');
 
-function addActions (description) {
+function addActions(_id, description) {
     var action = {
+        _id: _id,
         critere: 'Bandes riveraines',
         description: description
     };
-    action._id = [action.critere,action.description].join(" ");
 
     actionDB.put(action, function callback(err, result) {
         if (!err) {
@@ -26,9 +26,13 @@ function loadAllActions(actionBox) {
 
 function deleteAction(_id) {
     actionDB.get(_id, function(err, doc) {
-        if(err) { return console.log(err); }
+        if (err) {
+            return console.log(err);
+        }
         actionDB.remove(doc, function(err, resp) {
-            if (err) { return console.log(err); }
+            if (err) {
+                return console.log(err);
+            }
         });
     });
 }
