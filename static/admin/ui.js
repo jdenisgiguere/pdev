@@ -92,11 +92,47 @@ var ActionBox = React.createClass({
 
 var ActionDetail = React.createClass({
     getInitialState: function() {
-        return {description: 'ABC'};
+        return {
+            description: 'Description',
+            responsable: 'Responsable',
+            partenaire: 'Partenaire',
+            frequence: 'Fréquence',
+            cyclique: true,
+            echeance: 'Échéancier',
+            etat: 'planifie'
+        };
     },
 
     handleDescriptionChange: function(e) {
         this.setState({description: e.target.value});
+    },
+
+    handleResponsableChange: function(e) {
+        this.setState({responsable: e.target.value});
+    },
+
+    handlePartenaireChange: function(e) {
+        this.setState({partenaire: e.target.value});
+    },
+
+    handleFrequenceChange: function(e) {
+        this.setState({frequence: e.target.value});
+    },
+
+    handleFrequenceCycliqueChange: function(e) {
+        this.setState({cyclique: e.target.checked});
+    },
+
+    handleEcheanceChange: function(e) {
+        this.setState({echeance: e.target.value});
+    },
+
+    handleEtatChange: function(e) {
+        this.setState({etat: e.target.value});
+    },
+
+    handleFruit: function(e) {
+        this.setState({fruit: e.target.value});
     },
 
     handleSubmit: function(e) {
@@ -114,7 +150,7 @@ var ActionDetail = React.createClass({
     render: function() {
         return (
             <div className="actionDetail">
-                <h3>Édition d'une ation</h3>
+                <h3>Édition d'une action</h3>
                 <form role="form" onSubmit={this.handleSubmit}>
 
                     <div className="form-group">
@@ -122,6 +158,37 @@ var ActionDetail = React.createClass({
                         <input type="text" className="form-control" placeholder="Description de l'action"
                                value={this.state.description} onChange={this.handleDescriptionChange}
                                id="actionDescription"/>
+                        <label htmlFor="actionResponsable">Responsable de l'action</label>
+                        <input type="text" className="form-control" placeholder="Responsable de l'action"
+                               value={this.state.responsable} onChange={this.handleResponsableChange}
+                               id="actionResponsable"/>
+                        <label htmlFor="actionPartenaire">Partenaire</label>
+                        <input type="text" className="form-control" placeholder="Partenaire"
+                               value={this.state.partenaire} onChange={this.handlePartenaireChange}
+                               id="actionPartenaire"/>
+                        <label htmlFor="actionFrequence">Action cyclique?</label>
+                        <input type="text" className="form-control" placeholder="Fréquence"
+                               value={this.state.frequence} onChange={this.handleFrequenceChange}
+                               id="actionFrequence"/>
+                        <label htmlFor="actionFrequenceCyclique">Est-ce une action récurrente?</label>
+                        <input type="checkbox" className="form-control" placeholder="Récurrence"
+                               checked={this.state.cyclique} onChange={this.handleFrequenceCycliqueChange}
+                               id="actionFrequenceCyclique"/>
+                        <label htmlFor="actionEcheance">Échéancier</label>
+                        <input type="text" className="form-control" placeholder="Échéancier"
+                               value={this.state.echeance} onChange={this.handleEcheanceChange}
+                               id="actionEcheance"/>
+                        <label htmlFor="actionEtat">État</label>
+                        <select value={this.state.etat} className="form-control" onChange={this.handleEtatChange}
+                                id="actionEtat">
+                            <option value="continue">En continu</option>
+                            <option value="planifie">Planifié</option>
+                            <option value="cours">En cours</option>
+                            <option value="realise">Réalisé</option>
+                        </select>
+
+
+
                     </div>
                     <button type="submit" className="btn btn-default">Soumettre</button>
                 </form>
