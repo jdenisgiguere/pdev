@@ -1,3 +1,4 @@
+
 var ActionLine = React.createClass({
     handleClick: function() {
         this.props.onLineRemoval(this.props._id);
@@ -204,6 +205,8 @@ var ActionDetail = React.createClass({
                             <option value="planifie">Planifié</option>
                             <option value="cours">En cours</option>
                             <option value="realise">Réalisé</option>
+                            <option value="annule">Annulé</option>
+                            <option value="retard">En retard</option>
                         </select>
 
 
@@ -219,6 +222,7 @@ var ActionDetail = React.createClass({
 
 });
 
+
 var ActionPlanLine = React.createClass({
     render: function() {
         return (
@@ -228,9 +232,52 @@ var ActionPlanLine = React.createClass({
                 <td>{this.props.partenaire}</td>
                 <td>{this.props.frequence}</td>
                 <td>{this.props.echeance}</td>
-                <td>{this.props.etat}</td>
+                <td><ActionPlanEtat etat={this.props.etat}/></td>
             </tr>
         );
+    }
+});
+
+
+var ActionPlanEtat = React.createClass({
+    render: function() {
+        var text, icon, color;
+        switch (this.props.etat) {
+            case 'planifie':
+                text = 'Planifié';
+                icon = 'glyphicon glyphicon-calendar';
+                color = 'green';
+                break;
+            case 'continue':
+                text = 'En continu';
+                icon = 'glyphicon glyphicon-refresh';
+                color = 'green';
+                break;
+            case 'cours':
+                text = 'En cours';
+                icon = 'glyphicon glyphicon-signal';
+                color = 'green';
+                break;
+            case 'realise':
+                text = 'Réalisé';
+                icon = 'glyphicon glyphicon-check';
+                color = 'green';
+                break;
+            case 'annule':
+                text = 'Annulé';
+                icon = 'glyphicon glyphicon-remove';
+                color = 'red';
+                break;
+            case 'retard':
+                text = 'En retard';
+                icon = 'glyphicon glyphicon-road';
+                color = 'orange';
+
+
+        }
+        return (
+            <span><span className={icon} aria-hidden="true" style={{color:color}}></span>{text}</span>
+        )
     }
 });
 
@@ -242,13 +289,13 @@ var ActionPlan = React.createClass({
         var actionsLines = this.props.data.map(function(action) {
             return (
                 <ActionPlanLine key={action._id} description={action.description} responsable={action.responsable}
-                            partenaire={action.partenaire} frequence={action.frequence} echeance={action.echeance}
+                                partenaire={action.partenaire} frequence={action.frequence} echeance={action.echeance}
                                 etat={action.etat} _id={action._id}/>
             );
         });
 
         return (
-            <div className="actionList">
+            <div className="actionPlan">
                 <table className="table table-hover">
                     <thead>
                     <tr>
@@ -269,12 +316,37 @@ var ActionPlan = React.createClass({
     }
 });
 
+
+
+
 var GenererHtml = React.createClass({
     handleSubmit: function(e) {
         e.preventDefault();
         var a = 0;
-        var htmlParts = ReactDOMServer.renderToStaticMarkup(<ActionPlan data={this.props.data}/>);
-        var blob = new Blob([htmlParts], {type: "text/html;charset=utf-8"});
+        var htmlParts = [
+            '<!DOCTYPE html>',
+            '<html lang="fr" xmlns="http://www.w3.org/1999/html">',
+            '<head>',
+            '<meta charset="UTF-8">',
+            '<meta name="viewport" content="width=device-width, initial-scale=1">',
+            '<title>Plan d\'action pour les bandes riveraines</title>',
+            '<!-- Latest compiled and minified CSS -->',
+            '<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">',
+            '<!-- Optional theme -->',
+            '<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">',
+            '</head>',
+            '<body>',
+            '<div class="container">',
+            '<!-- Table du plan d\'action -->',
+        ];
+        htmlParts.push(ReactDOMServer.renderToStaticMarkup(<ActionPlan data={this.props.data}/>));
+        var moreHtml = ['</div>',
+            '<!-- Latest compiled and minified JavaScript -->',
+            '<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>',
+            '</body>',
+            '</html>'];
+        htmlParts = htmlParts.concat(moreHtml);
+        var blob = new Blob(htmlParts, {type: "text/html;charset=utf-8"});
         saveAs(blob, "pdaction.html");
     },
 
