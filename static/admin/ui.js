@@ -58,7 +58,7 @@ var ActionBox = React.createClass({
         var newActions = actions.concat([action]);
         this.setState({data: newActions});
 
-        addActions(action._id, action.description);
+        addActions(action);
     },
 
     handleActionRemoval: function(action_id) {
@@ -141,10 +141,29 @@ var ActionDetail = React.createClass({
         if (!description) {
             return;
         }
+        var responsable = this.state.responsable.trim();
+        var partenaire = this.state.partenaire.trim();
+        var frequence = this.state.frequence.trim();
+        var cyclique = this.state.cyclique;
+        var echeance = this.state.echeance.trim();
+        var etat = this.state.etat;
         //TODO do not encode criteria name
         var _id = ['bandes_riveraines', description].join(" ");
-        this.props.onActionSubmit({_id: _id, description: description});
-        this.setState({description: ''});
+        this.props.onActionSubmit({_id: _id,
+            description: description,
+            responsable: responsable,
+            partenaire: partenaire,
+            frequence: frequence,
+            cyclique: cyclique,
+            echeance: echeance,
+            etat: etat
+        });
+        this.setState({description: '',
+            frequence: '',
+            cyclique: true,
+            echeance: '',
+            etat: 'planifie'
+                });
     },
 
     render: function() {
@@ -200,11 +219,61 @@ var ActionDetail = React.createClass({
 
 });
 
+var ActionPlanLine = React.createClass({
+    render: function() {
+        return (
+            <tr>
+                <td>{this.props.description}</td>
+                <td>{this.props.responsable}</td>
+                <td>{this.props.partenaire}</td>
+                <td>{this.props.frequence}</td>
+                <td>{this.props.echeance}</td>
+                <td>{this.props.etat}</td>
+            </tr>
+        );
+    }
+});
+
+
+var ActionPlan = React.createClass({
+
+    render: function() {
+        var me = this;
+        var actionsLines = this.props.data.map(function(action) {
+            return (
+                <ActionPlanLine key={action._id} description={action.description} responsable={action.responsable}
+                            partenaire={action.partenaire} frequence={action.frequence} echeance={action.echeance}
+                                etat={action.etat} _id={action._id}/>
+            );
+        });
+
+        return (
+            <div className="actionList">
+                <table className="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Responsable</th>
+                        <th>Partenaires</th>
+                        <th>Fréquence</th>
+                        <th>Échéancier</th>
+                        <th>État</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {actionsLines}
+                    </tbody>
+                </table>
+            </div>
+        );
+    }
+});
+
 var GenererHtml = React.createClass({
     handleSubmit: function(e) {
         e.preventDefault();
         var a = 0;
-        var htmlParts = ReactDOMServer.renderToStaticMarkup(<ActionList data={this.props.data}/>);
+        var htmlParts = ReactDOMServer.renderToStaticMarkup(<ActionPlan data={this.props.data}/>);
         var blob = new Blob([htmlParts], {type: "text/html;charset=utf-8"});
         saveAs(blob, "pdaction.html");
     },
