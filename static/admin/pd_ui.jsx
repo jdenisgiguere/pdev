@@ -1,15 +1,18 @@
 
 var ActionLine = React.createClass({
-    handleClick: function() {
+    handleRemove: function() {
         this.props.onLineRemoval(this.props._id);
+    },
+    handleEdit: function() {
+        this.props.onLineEdit(this.props._id);
     },
 
     render: function() {
         return (
             <tr>
                 <td>{this.props.description}</td>
-                <td><span className="glyphicon glyphicon-pencil" aria-hidden="true" style={{color:"black"}} /></td>
-                <td><a href="#" onClick={this.handleClick}><span className="glyphicon glyphicon-remove" aria-hidden="true" style={{color:"red"}} /></a></td>
+                <td><a href="#" onClick={this.handleEdit}><span className="glyphicon glyphicon-pencil" aria-hidden="true" style={{color:"black"}} /></a></td>
+                <td><a href="#" onClick={this.handleRemove}><span className="glyphicon glyphicon-remove" aria-hidden="true" style={{color:"red"}} /></a></td>
             </tr>
         );
     }
@@ -21,11 +24,15 @@ var ActionList = React.createClass({
         this.props.onActionRemoval(action_id);
     },
 
+    handleActionEdit: function(action_id) {
+        this.props.onActionEdit(action_id);
+    },
+
     render: function() {
         var me = this;
         var actionsLines = this.props.data.map(function(action) {
             return (
-                <ActionLine onLineRemoval={me.handleActionRemoval} description={action.description} key={action._id}
+                <ActionLine onLineRemoval={me.handleActionRemoval}  onLineEdit={me.handleActionEdit} description={action.description} key={action._id}
                             _id={action._id}/>
             );
         });
@@ -71,8 +78,14 @@ var ActionBox = React.createClass({
         deleteAction(action_id);
     },
 
+    handleActionEdit: function(action_id) {
+        //var data = loadAction(action_id);
+        //this.setState({data: data});
+        console.log('edit!');
+    },
+
     getInitialState: function() {
-        return {data: []}
+        return {data: []};
     },
 
     componentDidMount: function() {
@@ -83,9 +96,11 @@ var ActionBox = React.createClass({
         return (
             <div id="actionBox">
                 <h2>Actions</h2>
-                <ActionList data={this.state.data} onActionRemoval={this.handleActionRemoval}/>
+                <ActionList data={this.state.data} onActionRemoval={this.handleActionRemoval} onActionEdit={this.handleActionEdit}/>
                 <ActionDetail onActionSubmit={this.handleActionSubmit}/>
-                <GenererHtml data={this.state.data}/>
+                <GenererHtml data={this.state.data} newState={{}}/>
+                <Importer/>
+                <Exporter/>
             </div>
         );
     }
@@ -355,6 +370,39 @@ var GenererHtml = React.createClass({
             <div className="generationHtml">
                 <form role="form" onSubmit={this.handleSubmit}>
                     <button type="submit" className="btn btn-default">Générer HTML</button>
+                </form>
+            </div>
+        );
+    }
+});
+
+
+
+var Importer = React.createClass({
+    handleSubmit: function(e) {
+        e.preventDefault();
+    },
+
+    render: function() {
+        return (
+            <div className="importer">
+                <form role="form" onSubmit={this.handleSubmit}>
+                    <button type="submit" className="btn btn-default">Importer un plan d'action</button>
+                </form>
+            </div>
+        );
+    }
+});
+var Exporter = React.createClass({
+    handleSubmit: function(e) {
+        e.preventDefault();
+    },
+
+    render: function() {
+        return (
+            <div className="exporter">
+                <form role="form" onSubmit={this.handleSubmit}>
+                    <button type="submit" className="btn btn-default">Exporter un plan d'action</button>
                 </form>
             </div>
         );

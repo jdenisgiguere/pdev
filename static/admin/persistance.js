@@ -26,6 +26,15 @@ function loadAllActions(actionBox) {
     })
 }
 
+function loadAction(_id) {
+    actionDB.get(_id, function(err, doc){
+        if (err) {
+            return console.log(err);
+        }
+        return doc;
+    });
+}
+
 function deleteAction(_id) {
     actionDB.get(_id, function(err, doc) {
         if (err) {
