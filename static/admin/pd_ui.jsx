@@ -102,7 +102,7 @@ var ActionBox = React.createClass({
 
         var state = this.state;
         state.edit.description = '';
-        state.edit.frequence = '';
+        state.edit.responsable = '';
         state.edit.partenaire = '';
         state.edit.frequence = '';
         state.edit.cyclique = false;
@@ -110,12 +110,20 @@ var ActionBox = React.createClass({
         state.edit.etat = 'planifie';
         this.setState(state);
 
-        //Previous action submit
         var actions = this.state.data;
-        var newActions = actions.concat([action]);
-        this.setState({data: newActions});
+        var newAction = actions.reduce(function(dontExist, current) {
+            if (dontExist) {
+                return !(current._id == _id);
+            }
+        }, true);
 
-        addActions(action);
+        if (newAction) {
+            var newActions = actions.concat([action]);
+            this.setState({data: newActions});
+        }
+
+        putAction(action);
+
     },
 
     handleActionRemoval: function(action_id) {
@@ -128,8 +136,14 @@ var ActionBox = React.createClass({
     },
 
     handleActionEdit: function(action_id) {
-        //var data = loadAction(action_id);
-        //this.setState({data: data});
+        var me = this;
+        actionDB.get(action_id).then(function(doc) {
+            var state = me.state;
+            state.edit = doc;
+            me.setState(state);
+        }).catch(function(err) {
+            console.log(err);
+        });
         console.log('edit!');
     },
 
