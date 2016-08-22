@@ -172,7 +172,7 @@ var ActionBox = React.createClass({
                 <ActionDetail edit={this.state.edit} onActionSubmit={this.handleActionSubmit}
                               onUserInput={this.handleFormUpdate}/>
                 <GenererHtml data={this.state.data}/>
-                <Importer/>
+                <Importer onDataImported={this.loadActionsFromDatabase}/>
                 <Exporter/>
             </div>
         );
@@ -182,9 +182,7 @@ var ActionBox = React.createClass({
 var ActionDetail = React.createClass({
 
     handleChange: function() {
-        this.props.onUserInput(
-            this.refs
-        );
+        this.props.onUserInput(this.refs);
     },
 
 
@@ -388,6 +386,7 @@ var GenererHtml = React.createClass({
 
 var Importer = React.createClass({
     handleSubmit: function(e) {
+        var me = this;
         e.preventDefault();
 
         PromiseFileReader.readAsText(this.refs.fichier.files[0]).then(function(importText) {
@@ -404,6 +403,7 @@ var Importer = React.createClass({
             actionDB.bulkDocs(docs).then(function(result) {
                 console.log("Importation réussie");
                 console.log(result);
+                me.props.onDataImported();
             }).catch(function(err) {
                 console.log(err);
             });

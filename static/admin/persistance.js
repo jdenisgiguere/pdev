@@ -36,7 +36,7 @@ function loadAllActions(actionBox) {
             });
         })
         actionBox.setState({data: data});
-    })
+    });
 }
 
 function loadAction(_id) {
