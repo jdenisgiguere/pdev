@@ -1,4 +1,3 @@
-
 var ActionLine = React.createClass({
     handleRemove: function() {
         this.props.onLineRemoval(this.props._id);
@@ -11,8 +10,10 @@ var ActionLine = React.createClass({
         return (
             <tr>
                 <td>{this.props.description}</td>
-                <td><a href="#" onClick={this.handleEdit}><span className="glyphicon glyphicon-pencil" aria-hidden="true" style={{color:"black"}} /></a></td>
-                <td><a href="#" onClick={this.handleRemove}><span className="glyphicon glyphicon-remove" aria-hidden="true" style={{color:"red"}} /></a></td>
+                <td><a href="#" onClick={this.handleEdit}><span className="glyphicon glyphicon-pencil"
+                                                                aria-hidden="true" style={{color: "black"}}/></a></td>
+                <td><a href="#" onClick={this.handleRemove}><span className="glyphicon glyphicon-remove"
+                                                                  aria-hidden="true" style={{color: "red"}}/></a></td>
             </tr>
         );
     }
@@ -32,7 +33,8 @@ var ActionList = React.createClass({
         var me = this;
         var actionsLines = this.props.data.map(function(action) {
             return (
-                <ActionLine onLineRemoval={me.handleActionRemoval}  onLineEdit={me.handleActionEdit} description={action.description} key={action._id}
+                <ActionLine onLineRemoval={me.handleActionRemoval} onLineEdit={me.handleActionEdit}
+                            description={action.description} key={action._id}
                             _id={action._id}/>
             );
         });
@@ -57,11 +59,58 @@ var ActionList = React.createClass({
 });
 
 var ActionBox = React.createClass({
+    getInitialState: function() {
+        return {
+            data: [],
+            edit: {
+                description: 'Description',
+                responsable: 'Responsable!!',
+                partenaire: 'Partenaire',
+                frequence: 'Fréquence',
+                cyclique: true,
+                echeance: 'Échéancier',
+                etat: 'planifie'
+            }
+        };
+    },
+
     loadActionsFromDatabase: function() {
         loadAllActions(this);
     },
 
-    handleActionSubmit: function(action) {
+    handleActionSubmit: function() {
+        var description = this.state.edit.description.trim();
+        var responsable = this.state.edit.responsable.trim();
+        var partenaire = this.state.edit.partenaire.trim();
+        var frequence = this.state.edit.frequence.trim();
+        var cyclique = this.state.edit.cyclique;
+        var echeance = this.state.edit.echeance.trim();
+        var etat = this.state.edit.etat;
+        //TODO do not encode criteria name
+        var _id = ['bandes_riveraines', description].join(" ");
+
+        var action = {
+            _id: _id,
+            description: description,
+            responsable: responsable,
+            partenaire: partenaire,
+            frequence: frequence,
+            cyclique: cyclique,
+            echeance: echeance,
+            etat: etat
+        };
+
+        var state = this.state;
+        state.edit.description = '';
+        state.edit.frequence = '';
+        state.edit.partenaire = '';
+        state.edit.frequence = '';
+        state.edit.cyclique = false;
+        state.edit.echeance = '';
+        state.edit.etat = 'planifie';
+        this.setState(state);
+
+        //Previous action submit
         var actions = this.state.data;
         var newActions = actions.concat([action]);
         this.setState({data: newActions});
@@ -84,8 +133,16 @@ var ActionBox = React.createClass({
         console.log('edit!');
     },
 
-    getInitialState: function() {
-        return {data: []};
+    handleFormUpdate: function(refs) {
+        var state = this.state;
+        state.edit.description = refs.description.value;
+        state.edit.responsable = refs.responsable.value;
+        state.edit.partenaire = refs.partenaire.value;
+        state.edit.frequence = refs.frequence.value;
+        state.edit.cyclique = refs.cyclique.checked;
+        state.edit.echeance = refs.echeance.value;
+        state.edit.etat = refs.etat.value;
+        this.setState(state);
     },
 
     componentDidMount: function() {
@@ -96,9 +153,11 @@ var ActionBox = React.createClass({
         return (
             <div id="actionBox">
                 <h2>Actions</h2>
-                <ActionList data={this.state.data} onActionRemoval={this.handleActionRemoval} onActionEdit={this.handleActionEdit}/>
-                <ActionDetail onActionSubmit={this.handleActionSubmit}/>
-                <GenererHtml data={this.state.data} newState={{}}/>
+                <ActionList data={this.state.data} onActionRemoval={this.handleActionRemoval}
+                            onActionEdit={this.handleActionEdit}/>
+                <ActionDetail edit={this.state.edit} onActionSubmit={this.handleActionSubmit}
+                              onUserInput={this.handleFormUpdate}/>
+                <GenererHtml data={this.state.data}/>
                 <Importer/>
                 <Exporter/>
             </div>
@@ -107,79 +166,17 @@ var ActionBox = React.createClass({
 });
 
 var ActionDetail = React.createClass({
-    getInitialState: function() {
-        return {
-            description: 'Description',
-            responsable: 'Responsable',
-            partenaire: 'Partenaire',
-            frequence: 'Fréquence',
-            cyclique: true,
-            echeance: 'Échéancier',
-            etat: 'planifie'
-        };
+
+    handleChange: function() {
+        this.props.onUserInput(
+            this.refs
+        );
     },
 
-    handleDescriptionChange: function(e) {
-        this.setState({description: e.target.value});
-    },
-
-    handleResponsableChange: function(e) {
-        this.setState({responsable: e.target.value});
-    },
-
-    handlePartenaireChange: function(e) {
-        this.setState({partenaire: e.target.value});
-    },
-
-    handleFrequenceChange: function(e) {
-        this.setState({frequence: e.target.value});
-    },
-
-    handleFrequenceCycliqueChange: function(e) {
-        this.setState({cyclique: e.target.checked});
-    },
-
-    handleEcheanceChange: function(e) {
-        this.setState({echeance: e.target.value});
-    },
-
-    handleEtatChange: function(e) {
-        this.setState({etat: e.target.value});
-    },
-
-    handleFruit: function(e) {
-        this.setState({fruit: e.target.value});
-    },
 
     handleSubmit: function(e) {
         e.preventDefault();
-        var description = this.state.description.trim();
-        if (!description) {
-            return;
-        }
-        var responsable = this.state.responsable.trim();
-        var partenaire = this.state.partenaire.trim();
-        var frequence = this.state.frequence.trim();
-        var cyclique = this.state.cyclique;
-        var echeance = this.state.echeance.trim();
-        var etat = this.state.etat;
-        //TODO do not encode criteria name
-        var _id = ['bandes_riveraines', description].join(" ");
-        this.props.onActionSubmit({_id: _id,
-            description: description,
-            responsable: responsable,
-            partenaire: partenaire,
-            frequence: frequence,
-            cyclique: cyclique,
-            echeance: echeance,
-            etat: etat
-        });
-        this.setState({description: '',
-            frequence: '',
-            cyclique: true,
-            echeance: '',
-            etat: 'planifie'
-                });
+        this.props.onActionSubmit()
     },
 
     render: function() {
@@ -191,30 +188,31 @@ var ActionDetail = React.createClass({
                     <div className="form-group">
                         <label htmlFor="actionDescription">Description de l'action</label>
                         <input type="text" className="form-control" placeholder="Description de l'action"
-                               value={this.state.description} onChange={this.handleDescriptionChange}
+                               value={this.props.edit.description} ref="description" onChange={this.handleChange}
                                id="actionDescription"/>
                         <label htmlFor="actionResponsable">Responsable de l'action</label>
                         <input type="text" className="form-control" placeholder="Responsable de l'action"
-                               value={this.state.responsable} onChange={this.handleResponsableChange}
+                               value={this.props.edit.responsable} ref="responsable" onChange={this.handleChange}
                                id="actionResponsable"/>
                         <label htmlFor="actionPartenaire">Partenaire</label>
                         <input type="text" className="form-control" placeholder="Partenaire"
-                               value={this.state.partenaire} onChange={this.handlePartenaireChange}
+                               value={this.props.edit.partenaire} ref="partenaire" onChange={this.handleChange}
                                id="actionPartenaire"/>
                         <label htmlFor="actionFrequence">Action cyclique?</label>
                         <input type="text" className="form-control" placeholder="Fréquence"
-                               value={this.state.frequence} onChange={this.handleFrequenceChange}
+                               value={this.props.edit.frequence} ref="frequence" onChange={this.handleChange}
                                id="actionFrequence"/>
                         <label htmlFor="actionFrequenceCyclique">Est-ce une action récurrente?</label>
                         <input type="checkbox" className="form-control" placeholder="Récurrence"
-                               checked={this.state.cyclique} onChange={this.handleFrequenceCycliqueChange}
+                               checked={this.props.edit.cyclique} ref="cyclique" onChange={this.handleChange}
                                id="actionFrequenceCyclique"/>
                         <label htmlFor="actionEcheance">Échéancier</label>
                         <input type="text" className="form-control" placeholder="Échéancier"
-                               value={this.state.echeance} onChange={this.handleEcheanceChange}
+                               value={this.props.edit.echeance} ref="echeance" onChange={this.handleChange}
                                id="actionEcheance"/>
                         <label htmlFor="actionEtat">État</label>
-                        <select value={this.state.etat} className="form-control" onChange={this.handleEtatChange}
+                        <select value={this.props.edit.etat} ref="etat" className="form-control"
+                                onChange={this.handleChange}
                                 id="actionEtat">
                             <option value="continue">En continu</option>
                             <option value="planifie">Planifié</option>
@@ -223,7 +221,6 @@ var ActionDetail = React.createClass({
                             <option value="annule">Annulé</option>
                             <option value="retard">En retard</option>
                         </select>
-
 
 
                     </div>
@@ -291,7 +288,7 @@ var ActionPlanEtat = React.createClass({
 
         }
         return (
-            <span><span className={icon} aria-hidden="true" style={{color:color}}></span>{text}</span>
+            <span><span className={icon} aria-hidden="true" style={{color: color}}></span>{text}</span>
         )
     }
 });
@@ -330,8 +327,6 @@ var ActionPlan = React.createClass({
         );
     }
 });
-
-
 
 
 var GenererHtml = React.createClass({
@@ -375,7 +370,6 @@ var GenererHtml = React.createClass({
         );
     }
 });
-
 
 
 var Importer = React.createClass({
