@@ -63,13 +63,13 @@ var ActionBox = React.createClass({
         return {
             data: [],
             edit: {
-                description: 'Description',
-                responsable: 'Responsable!!',
-                partenaire: 'Partenaire',
-                frequence: 'Fréquence',
-                cyclique: true,
-                echeance: 'Échéancier',
-                etat: 'planifie'
+                description: '',
+                responsable: '',
+                partenaire: '',
+                frequence: '',
+                cyclique: false,
+                echeance: '',
+                etat: ''
             }
         };
     },
