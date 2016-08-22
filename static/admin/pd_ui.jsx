@@ -389,12 +389,35 @@ var GenererHtml = React.createClass({
 var Importer = React.createClass({
     handleSubmit: function(e) {
         e.preventDefault();
+
+        PromiseFileReader.readAsText(this.refs.fichier.files[0]).then(function(importText) {
+            var importJson, doc, docs;
+            console.log(importText);
+            importJson = JSON.parse(importText);
+            docs = importJson.rows.map(function(row) {
+                doc = row.doc;
+                delete doc._rev;
+                return doc;
+            });
+            console.log('docs:');
+            console.log(docs);
+            actionDB.bulkDocs(docs).then(function(result) {
+                console.log("Importation réussie");
+                console.log(result);
+            }).catch(function(err) {
+                console.log(err);
+            });
+        }).catch(function(err) {
+            console.log(err)
+        });
+
     },
 
     render: function() {
         return (
             <div className="importer">
                 <form role="form" onSubmit={this.handleSubmit}>
+                    <input type="file" className="form-control" ref="fichier" placeholder="Fichier d'actions"/>
                     <button type="submit" className="btn btn-default">Importer un plan d'action</button>
                 </form>
             </div>
@@ -404,6 +427,16 @@ var Importer = React.createClass({
 var Exporter = React.createClass({
     handleSubmit: function(e) {
         e.preventDefault();
+        actionDB.allDocs({
+            include_docs: true,
+            attachments: true
+        }).then(function(result) {
+            var blob = new Blob([JSON.stringify(result)], {type: "application/json;charset=utf-8"});
+            saveAs(blob, "actions.json");
+        }).catch(function(err) {
+            console.log(err);
+        });
+
     },
 
     render: function() {
