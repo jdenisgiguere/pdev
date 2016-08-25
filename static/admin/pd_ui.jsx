@@ -210,7 +210,7 @@ var ActionDetail = React.createClass({
                         <input type="text" className="form-control" placeholder="Partenaire"
                                value={this.props.edit.partenaire} ref="partenaire" onChange={this.handleChange}
                                id="actionPartenaire"/>
-                        <label htmlFor="actionFrequence">Action cyclique?</label>
+                        <label htmlFor="actionFrequence">Fréquence?</label>
                         <input type="text" className="form-control" placeholder="Fréquence"
                                value={this.props.edit.frequence} ref="frequence" onChange={this.handleChange}
                                id="actionFrequence"/>
