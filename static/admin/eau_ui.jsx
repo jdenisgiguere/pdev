@@ -1,3 +1,13 @@
+var CalculateurDiagramme = (function() {
+
+    return {
+        mesureVersPosition: function(mesure, valeur) {
+            return 216;
+        }
+    }
+
+})();
+
 var BassinSelect = React.createClass({
     render: function() {
         return (
@@ -32,6 +42,10 @@ var IndicateurSelect = React.createClass({
 });
 
 var Diagramme = React.createClass({
+    mesureLocationX : function () {
+        return 216;
+    },
+
     render: function() {
         return (
             <svg height="220" width="600">
@@ -48,7 +62,7 @@ var Diagramme = React.createClass({
                 </g>
 
                 <g className="mesure" transform="translate(50,80)">
-                    <rect x="216" y="50" height="10" width="10" fill="rgb(255,255,0)"/>
+                    <rect x={CalculateurDiagramme.mesureVersPosition(this.props.mesure, this.props.valeur)} y="50" height="10" width="10" fill="rgb(255,255,0)"/>
                 </g>
 
                 <g className="legende">
@@ -76,7 +90,7 @@ var Diagramme = React.createClass({
 var GenererDiagramme = React.createClass({
     handleSubmit: function(e) {
         e.preventDefault();
-        var diagramme = ReactDOMServer.renderToStaticMarkup(<Diagramme/>);
+        var diagramme = ReactDOMServer.renderToStaticMarkup(<Diagramme mesure="phosphoreTotal" valeur="12"/>);
         var result = [diagramme,]
         var blob = new Blob(result, {type: "image/svg+xml;charset=utf-8"});
         saveAs(blob, "qualite_eau.svg");
