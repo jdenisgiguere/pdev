@@ -71,10 +71,12 @@ var Diagramme = React.createClass({
                     </text>
                     <text x="133" y="65" fill="black" textAnchor="middle">Oligotrophe</text>
                     <path id="oligo-vs-meso" d="M 216 80 L 216 180 Z" stroke="black" strokeWidth="2" fill="none"/>
-                    <text x="216" y="205" textAnchor="middle">10</text>
+                    <text x="216" y="205"
+                          textAnchor="middle">{CalculateurDiagramme.niveauTrophique[this.props.mesure].oligotropheMax}</text>
                     <text x="300" y="65" fill="black" textAnchor="middle">Mésotrophe</text>
                     <path id="meso-vs-eu" d="M 382 80 L 382 180 Z" stroke="black" strokeWidth="2" fill="none"/>
-                    <text x="382" y="205" textAnchor="middle">30</text>
+                    <text x="382" y="205"
+                          textAnchor="middle">{CalculateurDiagramme.niveauTrophique[this.props.mesure].mesotropheMax}</text>
                     <text x="466" y="65" fill="black" textAnchor="middle">Eutrophe</text>
                     <text x="550" y="55" fill="black" textAnchor="middle">Hyper-
                         <tspan x="550" y="75" textAnchor="middle">eutrophe</tspan>
