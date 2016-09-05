@@ -15,6 +15,22 @@ var CalculateurDiagramme = (function() {
             mesoEutropheMin: 20,
             mesotropheMax: 30,
             mesoEutropheMax: 35,
+            eutropheMax: 100,
+            hyperEutrophe: 300,
+        },
+
+        chlorophylle: {
+            ultraOligotrophe:0,
+            oligotropheMin: 1,
+            oligoMesotropheMin: 2.5,
+            oligotropheMax: 3,
+            oligoMesotropheMax: 3.5,
+            mesoEutropheMin: 6.5,
+            mesotropheMax: 8,
+            mesoEutropheMax: 10,
+            eutropheMax: 25,
+            hyperEutrophe: 100,
+
         },
 
         pixel: {
@@ -26,6 +42,8 @@ var CalculateurDiagramme = (function() {
             mesoEutropheMin: 288,
             mesotropheMax: 346,
             mesoEutropheMax: 407,
+            eutropheMax: 483,
+            hyperEutrophe: 500
         }
     };
 
@@ -102,6 +120,27 @@ var CalculateurDiagramme = (function() {
                     niveauTrophique.pixel.mesoEutropheMax
                 );
 
+            } else if (valeur >= niveauTrophique[mesure].mesoEutropheMax &&
+                valeur < niveauTrophique[mesure].eutropheMax) {
+                pixel = interpollePixel(valeur,
+                    niveauTrophique[mesure].mesoEutropheMax,
+                    niveauTrophique[mesure].eutropheMax,
+                    niveauTrophique.pixel.mesoEutropheMax,
+                    niveauTrophique.pixel.eutropheMax
+                );
+
+            } else if (valeur >= niveauTrophique[mesure].eutropheMax &&
+                valeur <= niveauTrophique[mesure].hyperEutrophe) {
+                pixel = interpollePixel(valeur,
+                    niveauTrophique[mesure].eutropheMax,
+                    niveauTrophique[mesure].hyperEutrophe,
+                    niveauTrophique.pixel.eutropheMax,
+                    niveauTrophique.pixel.hyperEutrophe
+                );
+
+            } else if (valeur > niveauTrophique[mesure].hyperEutrophe ) {
+                alert(mesure, " est plus grand que ", niveauTrophique[mesure].hyperEutrophe);
+                pixel = niveauTrophique.pixel.hyperEutrophe
             }
             return pixel;
         }
