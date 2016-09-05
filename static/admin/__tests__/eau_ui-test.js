@@ -19,42 +19,46 @@ it('sets position to 0 for phosphore value of 0', () => {
     expect(CalculateurDiagramme.mesureVersPosition("phosphore", 0)).toBe(0);
 });
 
-it('sets position to 20 for phosphore value of 4', () => {
+it('sets position to 19 for phosphore value of 4', () => {
     const CalculateurDiagramme = require("../calculateurDiagramme");
-    expect(CalculateurDiagramme.mesureVersPosition("phosphore", 4)).toBe(20);
+    expect(CalculateurDiagramme.mesureVersPosition("phosphore", 4)).toBe(19);
 });
 
-it('sets position to 126 for phosphore value of 7', () => {
+it('sets position to 122 for phosphore value of 7', () => {
     const CalculateurDiagramme = require("../calculateurDiagramme");
-    expect(CalculateurDiagramme.mesureVersPosition("phosphore", 7)).toBe(126);
+    expect(CalculateurDiagramme.mesureVersPosition("phosphore", 7)).toBe(122);
 });
 
-it('sets position to 180 for phosphore value of 10', () => {
+it('sets position to 174 for phosphore value of 10', () => {
     const CalculateurDiagramme = require("../calculateurDiagramme");
-    expect(CalculateurDiagramme.mesureVersPosition("phosphore", 10)).toBe(180);
+    expect(CalculateurDiagramme.mesureVersPosition("phosphore", 10)).toBe(174);
 });
 
-
-it('sets position between 238 and 298 for phosphore value of 16.7', () => {
+it('sets position to 230 for phosphore value of 13', () => {
     const CalculateurDiagramme = require("../calculateurDiagramme");
-    expect(CalculateurDiagramme.mesureVersPosition("phosphore", 16.7)).toBeGreaterThan(238);
-    expect(CalculateurDiagramme.mesureVersPosition("phosphore", 16.7)).toBeLessThan(298);
+    expect(CalculateurDiagramme.mesureVersPosition("phosphore", 13)).toBe(230);
 });
 
-it('sets position to 268 for phosphore value of 16.5', () => {
+it('sets position between 230 and 298 for phosphore value of 16.7', () => {
     const CalculateurDiagramme = require("../calculateurDiagramme");
-    expect(CalculateurDiagramme.mesureVersPosition("phosphore", 16.5)).toBeCloseTo(268.0,1);
+    expect(CalculateurDiagramme.mesureVersPosition("phosphore", 16.7)).toBeGreaterThan(230);
+    expect(CalculateurDiagramme.mesureVersPosition("phosphore", 16.7)).toBeLessThan(288);
 });
 
-it('sets position to 269.7 for phosphore value of 16.7', () => {
+it('sets position to 259 for phosphore value of 16.5', () => {
     const CalculateurDiagramme = require("../calculateurDiagramme");
-    expect(CalculateurDiagramme.mesureVersPosition("phosphore", 16.7)).toBeCloseTo(269.7,1);
+    expect(CalculateurDiagramme.mesureVersPosition("phosphore", 16.5)).toBeCloseTo(259.0, 1);
 });
 
-
-it('sets position to 238 for phosphore value of 13', () => {
+it('sets position to 288 for phosphore value of 20', () => {
     const CalculateurDiagramme = require("../calculateurDiagramme");
-    expect(CalculateurDiagramme.mesureVersPosition("phosphore", 13)).toBe(238);
+    expect(CalculateurDiagramme.mesureVersPosition("phosphore", 20)).toBe(288);
 });
+
+it('sets position to 346 for phosphore value of 30', () => {
+    const CalculateurDiagramme = require("../calculateurDiagramme");
+    expect(CalculateurDiagramme.mesureVersPosition("phosphore", 30)).toBe(346);
+});
+
 
 

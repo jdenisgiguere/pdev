@@ -13,15 +13,19 @@ var CalculateurDiagramme = (function() {
             oligotropheMax: 10,
             oligoMesotropheMax: 13,
             mesoEutropheMin: 20,
+            mesotropheMax: 30,
+            mesoEutropheMax: 35,
         },
 
         pixel: {
             ultraOligotrophe: 0,
-            oligotropheMin: 20,
-            oligoMesotropheMin: 126,
-            oligotropheMax: 180,
-            oligoMesotropheMax: 238,
-            mesoEutropheMin: 298,
+            oligotropheMin: 19,
+            oligoMesotropheMin: 122,
+            oligotropheMax: 174,
+            oligoMesotropheMax: 230,
+            mesoEutropheMin: 288,
+            mesotropheMax: 346,
+            mesoEutropheMax: 407,
         }
     };
 
@@ -79,6 +83,23 @@ var CalculateurDiagramme = (function() {
                     niveauTrophique[mesure].mesoEutropheMin,
                     niveauTrophique.pixel.oligoMesotropheMax,
                     niveauTrophique.pixel.mesoEutropheMin
+                );
+            } else if (valeur >= niveauTrophique[mesure].mesoEutropheMin &&
+                valeur < niveauTrophique[mesure].mesotropheMax) {
+                pixel = interpollePixel(valeur,
+                    niveauTrophique[mesure].mesoEutropheMin,
+                    niveauTrophique[mesure].mesotropheMax,
+                    niveauTrophique.pixel.mesoEutropheMin,
+                    niveauTrophique.pixel.mesotropheMax
+                );
+
+            } else if (valeur >= niveauTrophique[mesure].mesotropheMax &&
+                valeur < niveauTrophique[mesure].mesoEutropheMax) {
+                pixel = interpollePixel(valeur,
+                    niveauTrophique[mesure].mesotropheMax,
+                    niveauTrophique[mesure].mesoEutropheMax,
+                    niveauTrophique.pixel.mesotropheMax,
+                    niveauTrophique.pixel.mesoEutropheMax
                 );
 
             }
