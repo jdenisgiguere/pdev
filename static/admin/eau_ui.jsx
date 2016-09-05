@@ -1,12 +1,5 @@
-var CalculateurDiagramme = (function() {
+requirejs(['calculateurDiagramme.js']);
 
-    return {
-        mesureVersPosition: function(mesure, valeur) {
-            return 216;
-        }
-    }
-
-})();
 
 var BassinSelect = React.createClass({
     render: function() {
@@ -26,11 +19,16 @@ var BassinSelect = React.createClass({
 });
 
 var IndicateurSelect = React.createClass({
+    updateIndicateur: function() {
+        this.props.onIndicateurUpdated(this.refs.indicateur);
+    },
+
     render: function() {
         return (
             <form role="form">
                 <label htmlFor="indicateurSelect">Indicateur</label>
-                <select className="form-control" id="indicateurSelector">
+                <select className="form-control" id="indicateurSelector" ref="indicateur"
+                        onChange={this.updateIndicateur}>
                     <option value="phosphore">Phospore total (μg/l)</option>
                     <option value="chlorophylle">Chlorophylle a (μg/l)</option>
                     <option value="carbone_organique_dissous">Carbone organique dissous (mg/l)</option>
@@ -42,7 +40,7 @@ var IndicateurSelect = React.createClass({
 });
 
 var Diagramme = React.createClass({
-    mesureLocationX : function () {
+    mesureLocationX: function() {
         return 216;
     },
 
@@ -62,7 +60,8 @@ var Diagramme = React.createClass({
                 </g>
 
                 <g className="mesure" transform="translate(50,80)">
-                    <rect x={CalculateurDiagramme.mesureVersPosition(this.props.mesure, this.props.valeur)} y="50" height="10" width="10" fill="rgb(255,255,0)"/>
+                    <rect x={CalculateurDiagramme.mesureVersPosition(this.props.mesure, this.props.valeur)} y="50"
+                          height="10" width="10" fill="rgb(255,255,0)"/>
                 </g>
 
                 <g className="legende">
@@ -90,8 +89,9 @@ var Diagramme = React.createClass({
 var GenererDiagramme = React.createClass({
     handleSubmit: function(e) {
         e.preventDefault();
-        var diagramme = ReactDOMServer.renderToStaticMarkup(<Diagramme mesure="phosphoreTotal" valeur="12"/>);
-        var result = [diagramme,]
+        var diagramme = ReactDOMServer.renderToStaticMarkup(<Diagramme mesure={this.props.mesure}
+                                                                       valeur={this.props.valeur}/>);
+        var result = [diagramme,];
         var blob = new Blob(result, {type: "image/svg+xml;charset=utf-8"});
         saveAs(blob, "qualite_eau.svg");
     },
@@ -108,23 +108,43 @@ var GenererDiagramme = React.createClass({
 });
 
 var QualiteEauWidget = React.createClass({
+    getInitialState: function() {
+        return {
+            mesure: null,
+            indicateur: "phosphore"
+        }
+    },
+
+    updateIndicateur: function(indicateurRef) {
+        var state = this.state;
+        state.indicateur = indicateurRef.value;
+        this.setState(state);
+    },
+
+    handleChange: function() {
+        var state = this.state;
+        state.mesure = this.refs.mesure.value;
+        this.setState(state);
+    },
+
     render: function() {
         return (
             <div id="qualiteEauWidget">
                 <BassinSelect />
-                <IndicateurSelect />
+                <IndicateurSelect onIndicateurUpdated={this.updateIndicateur}/>
                 <label>Date de l'acquisition</label>
                 <input type="date" className="form-control" placeholder="Date de l'acquisition"/>
                 <label>Mesure</label>
-                <input type="text" className="form-control" placeholder="Mesure"/>
+                <input type="text" className="form-control" placeholder="Mesure" ref="mesure"
+                       onChange={this.handleChange}/>
                 <button type="submit" className="btn btn-default">Soumettre</button>
-                <GenererDiagramme />
+                <GenererDiagramme mesure={this.state.indicateur} valeur={this.state.mesure}/>
             </div>
         );
     }
 });
 
 ReactDOM.render(
-    <QualiteEauWidget />,
+    <QualiteEauWidget/>,
     document.getElementById('eauContainer')
 );
