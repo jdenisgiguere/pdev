@@ -6,6 +6,10 @@ var ActionLine = React.createClass({
         this.props.onLineEdit(this.props._id);
     },
 
+    handleArrowUp: function() {
+        this.props.onArrowUp(this.props._id);
+    },
+
     render: function() {
         return (
             <tr>
@@ -14,6 +18,13 @@ var ActionLine = React.createClass({
                                                                 aria-hidden="true" style={{color: "black"}}/></a></td>
                 <td><a href="#" onClick={this.handleRemove}><span className="glyphicon glyphicon-remove"
                                                                   aria-hidden="true" style={{color: "red"}}/></a></td>
+                <td><a href="#" onClick={this.handleArrowUp}><span className="glyphicon glyphicon-arrow-up"
+                                                                   aria-hidden="true" style={{color: "black"}}/></a>
+                </td>
+                <td><a href="#" onClick={this.handleArrowDown}><span className="glyphicon glyphicon-arrow-down"
+                                                                     aria-hidden="true" style={{color: "black"}}/></a>
+                </td>
+
             </tr>
         );
     }
@@ -29,11 +40,16 @@ var ActionList = React.createClass({
         this.props.onActionEdit(action_id);
     },
 
+    handleActionOrderUp: function(action_id) {
+        this.props.onActionOrderUp(action_id);
+    },
+
     render: function() {
         var me = this;
         var actionsLines = this.props.data.map(function(action) {
             return (
                 <ActionLine onLineRemoval={me.handleActionRemoval} onLineEdit={me.handleActionEdit}
+                            onArrowUp={me.handleActionOrderUp}
                             description={action.description} key={action._id}
                             _id={action._id}/>
             );
@@ -159,16 +175,22 @@ var ActionBox = React.createClass({
         this.setState(state);
     },
 
+    handleActionOrderUp: function(action_id) {
+        alert("Action Up!");
+    },
+
     componentDidMount: function() {
         this.loadActionsFromDatabase()
     },
+
 
     render: function() {
         return (
             <div id="actionBox">
                 <h2>Actions</h2>
                 <ActionList data={this.state.data} onActionRemoval={this.handleActionRemoval}
-                            onActionEdit={this.handleActionEdit}/>
+                            onActionEdit={this.handleActionEdit}
+                            onActionOrderUp={this.handleActionOrderUp}/>
                 <ActionDetail edit={this.state.edit} onActionSubmit={this.handleActionSubmit}
                               onUserInput={this.handleFormUpdate}/>
                 <GenererHtml data={this.state.data}/>
