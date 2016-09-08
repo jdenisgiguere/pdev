@@ -32,6 +32,7 @@ function loadAllActions(actionBox) {
                 frequence: element.doc.frequence,
                 echeance: element.doc.echeance,
                 etat: element.doc.etat,
+                order: element.doc.order,
                 _id: element.doc._id
             });
         })
