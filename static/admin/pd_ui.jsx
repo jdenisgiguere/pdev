@@ -269,7 +269,81 @@ var ActionBox = React.createClass({
     },
 
     handleActionOrderDown(action_id) {
-        alert("order down");
+        var orderUpdated, orderUpdatedUi, nbActions;
+
+        nbActions = this.state.data.length;
+
+        //Update database
+        actionDB.get(action_id).then(function(doc) {
+            orderUpdated = doc.order;
+        }).then(
+            actionDB.allDocs({include_docs: true, descending: true}, function(err, doc) {
+                doc.rows.forEach(function(element) {
+                    if (orderUpdated === nbActions) {
+                        console.log("We cannot decrease order index of the last item");
+                    } else if (element.doc.order === orderUpdated) {
+                        //We increase order index of
+                        element.doc.order = element.doc.order - 1;
+                        actionDB.put(element.doc, function callback(err, result) {
+                            if (err) {
+                                console.error(err)
+                            }
+                        });
+                    } else if (element.doc.order === (orderUpdated + 1)) {
+                        //We increase order index of
+                        element.doc.order = element.doc.order + 1;
+                        actionDB.put(element.doc, function callback(err, result) {
+                            if (err) {
+                                console.error(err)
+                            }
+                        });
+                    } else {
+                        //We don't change order index of
+                    }
+                })
+            })
+        ).catch(function(err) {
+            console.log(err);
+        });
+
+        //Update UI
+        var state, data, me;
+        me = this;
+        state = this.state;
+        console.log(state);
+        actionDB.get(action_id).then(function(doc) {
+            orderUpdatedUi = doc.order;
+            console.log("doc ", doc);
+            console.log("orderUpdatedUi", orderUpdatedUi);
+        }).then(function() {
+                data = me.state.data.map(function(element) {
+                    var e = element;
+                    console.log("orderUpdatedUi", orderUpdatedUi);
+                    if (orderUpdatedUi === nbActions) {
+                        //We cannot decrease order of last item
+                    } else if (element.order === orderUpdatedUi) {
+                        e.order = element.order + 1;
+
+                    } else if (element.order === (orderUpdatedUi + 1)) {
+                        e.order = element.order - 1;
+                    } else {
+                        console.log("Index of ", e.description, " does not change");
+                    }
+                    console.log(e);
+                    return e;
+                })
+            }
+        ).then(
+            function() {
+                state.data = data;
+                console.log(state);
+                me.setState(state)
+            }
+        ).catch(
+            function(err) {
+                console.log(err);
+            }
+        );
     },
 
     componentDidMount: function() {
