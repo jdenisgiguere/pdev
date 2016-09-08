@@ -10,6 +10,10 @@ var ActionLine = React.createClass({
         this.props.onArrowUp(this.props._id);
     },
 
+    handleArrowDown: function() {
+        this.props.onArrowDown(this.props._id);
+    },
+
     render: function() {
         return (
             <tr>
@@ -44,6 +48,10 @@ var ActionList = React.createClass({
         this.props.onActionOrderUp(action_id);
     },
 
+    handleActionOrderDown: function(action_id) {
+        this.props.onActionOrderDown(action_id);
+    },
+
     render: function() {
         var me = this;
         var actionsLines = this.props.data.sort(function(a, b) {
@@ -51,7 +59,7 @@ var ActionList = React.createClass({
         }).map(function(action) {
             return (
                 <ActionLine onLineRemoval={me.handleActionRemoval} onLineEdit={me.handleActionEdit}
-                            onArrowUp={me.handleActionOrderUp}
+                            onArrowUp={me.handleActionOrderUp} onArrowDown={me.handleActionOrderDown}
                             description={action.description} key={action._id}
                             _id={action._id}/>
             );
@@ -260,6 +268,10 @@ var ActionBox = React.createClass({
 
     },
 
+    handleActionOrderDown(action_id) {
+        alert("order down");
+    },
+
     componentDidMount: function() {
         this.loadActionsFromDatabase()
     },
@@ -271,7 +283,8 @@ var ActionBox = React.createClass({
                 <h2>Actions</h2>
                 <ActionList data={this.state.data} onActionRemoval={this.handleActionRemoval}
                             onActionEdit={this.handleActionEdit}
-                            onActionOrderUp={this.handleActionOrderUp}/>
+                            onActionOrderUp={this.handleActionOrderUp}
+                            onActionOrderDown={this.handleActionOrderDown}/>
                 <ActionDetail edit={this.state.edit} onActionSubmit={this.handleActionSubmit}
                               onUserInput={this.handleFormUpdate}/>
                 <GenererHtml data={this.state.data}/>
