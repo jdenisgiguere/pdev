@@ -6,21 +6,6 @@
     <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/bouton.css"/>
     <link rel="stylesheet" type="text/css" href="/maki.font/css/fontello.css"/>
-    <style>
-        li.active:focus {
-            background-color: deeppink;
-        }
-
-        .imgespecepresente {
-            -webkit-filter: url(#presence);
-            filter: url(#presence);
-        }
-
-        .imgespecesurveillance {
-            -webkit-filter: url(#surveillance);
-            filter: url(#surveillance);
-        }
-    </style>
 </head>
 <body>
 <div class="container">
@@ -28,6 +13,7 @@
         <div class="col-md-3" id="side-nav">
             <ul class="nav nav-list affix">
                 <li class="active"><a href="#action">Passez à l'action !</a></li>
+                <li><a href="#suivi">Suivi</a></li>
                 <li><a href="#plan_d_action">Plan d'action</a></li>
             </ul>
         </div>
@@ -57,6 +43,23 @@
                     <a href="http://www.mddelcc.gouv.qc.ca/biodiversite/especes-exotiques-envahissantes/sentinelle.htm" class="btn btn-warning btn-lg">
                         <i class="glyphicon icon-embassy-15"></i>Rapporter la présence d'une espèce</a>
                 </p>
+            </div>
+
+            <div id="suivi">
+                <h3>Suivi des espèces exotiques envahissantes</h3>
+                <div style="display: table">
+                    <div style="display: table-row">
+                        <div style="display: table-cell;padding-right: 20px;padding-top: 12px"><span
+                                class="glyphicon glyphicon-thumbs-up" aria-hidden="true"
+                                style="color:green;font-size: 200%"></span></div>
+                        <div style="display: table-cell"><p style="top: 50%;transform: translate(0, -50%);">La présence
+                            d'espaces exotiques envahissantes n'a pas été détectée dans le lac ou sa bande riveraine.
+                            Nous surveillons l'évolution de la situation.</p></div>
+                    </div>
+
+                </div>
+
+
             </div>
 
             <section id="plan_d_action">
