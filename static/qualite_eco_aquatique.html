@@ -10,6 +10,7 @@
 <div class="container">
     <div class="row">
         <nav class="col-md-3" id="side-nav">
+            <!-- Menu de navigation de la page-->
             <ul class="nav nav-pills nav-stacked" data-spy="affix">
                 <li class="active"><a href="#action">Passez à l'action!</a></li>
                 <li><a href="#evolution">Évolution</a></li>
@@ -17,10 +18,15 @@
             </ul>
         </nav>
         <div class="col-md-9">
+            <!-- Section principale de la page Web-->
+
             <h2>Qualité de l'écosystème aquatique</h2>
 
             <div id="action">
                 <h3>Passez à l'action!</h3>
+
+
+                <!-- Début des boutons d'appel à l'action -->
 
                 <p>
                     <a href="http://www.ville.rouyn-noranda.qc.ca/fr/page/algues-bleu-vert/"
@@ -34,6 +40,8 @@
                         <i class="glyphicon glyphicon-search"></i> Inspectez votre installation septique</a>
                 </p>
 
+                <!-- Fin des boutons d'appel à l'action -->
+
             </div>
 
 
@@ -41,6 +49,10 @@
                 <h3>Évolution de la santé du lac d’Alembert</h3>
 
                 <h4>Phosphore total</h4>
+
+                <!-- Section des diagrammes annuels de concentration du phosphore total -->
+                <!-- Les diagrammes annuels de concentration du phosphore total sont générés -->
+                <!-- automatiquement. Ne pas modifier le code html pour mettre à jour les données -->
 
                 <svg height="220" width="600">
                     <defs>
@@ -79,11 +91,37 @@
 
                 </svg>
 
-                <p>Moyenne des trois mesures du phosphore total (μg / l) effecutées à l'été 2014.</p>
+                <div>
+                    <form class="navbar-form navbar-default">
+                        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-backward"
+                                                                            aria-hidden="true"
+                                                                            style="margin-right: 4px;"></span>Année
+                            précédente
+                        </button>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Moyenne été 2014">
+                        </div>
+                        <button type="submit" class="btn btn-default">Année suivante<span
+                                class="glyphicon glyphicon-forward" aria-hidden="true" style="margin-left: 4px;"></span>
+                        </button>
+                    </form>
+
+                </div>
+
+                <!-- Fin de la section des diagrammes annuels de concentration du phosphore total -->
+
+
+                <div>
+                    <p>Moyenne des trois mesures du phosphore total (μg / l)</p>
+                </div>
+
 
                 <h4>Chlorophylle a</h4>
 
-                ﻿
+
+                <!-- Section des diagrammes annuels de concentration de la chlorophylle a -->
+                <!-- Les diagrammes annuels de concentration de la chlorophylle a sont générés -->
+                <!-- automatiquement. Ne pas modifier le code html pour mettre à jour les données -->
                 <svg height="220" width="600">
                     <defs>
                         <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -115,9 +153,12 @@
                         </text>
                     </g>
                 </svg>
-                
-                <p>Moyenne des trois mesures de chlorophylle (μg / l) effecutées à l'été 2014.</p>
 
+                <!-- Fin de la section des diagrammes annuels de concentration de la chlorophylle a -->
+
+                <p>Moyenne des trois mesures de chlorophylle (μg / l)</p>
+
+                <!-- Bouton d'information sur le Réseau de surveillance volontaire des lacs (RSVL) -->
                 <p>
                     <a href="http://www.mddelcc.gouv.qc.ca/EAU/rsvl/index.htm" class="btn btn-info btn-lg">
                         <i class="glyphicon glyphicon-search"></i> Comment mesurer la santé d’un lac?</a>
@@ -128,6 +169,10 @@
             <section id="plan_d_action">
 
                 <h3>Plan d'action</h3>
+
+                <!-- Début du tableau de suivi du plan d'action -->
+                <!-- Cette section est générée automatique à partir de l'outil d'administration du -->
+                <!-- plan d'action -->
                 <table class="table table-hover">
                     <thead>
                     <tr>
@@ -229,6 +274,7 @@
                     </tr>
                     </tbody>
                 </table>
+                <!--Fin du tableau généré automatique pour l'administration des plans d'action -->
             </section>
         </div>
     </div>
