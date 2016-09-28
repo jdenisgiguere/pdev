@@ -199,8 +199,9 @@ var ActionBox = React.createClass({
                 doc.rows.forEach(function(element) {
                     if (orderUpdated === 1) {
                         console.log("We cannot decrease order index of the first item");
-                    } else if (element.doc.order < orderUpdated) {
+                    } else if (element.doc.order === (orderUpdated - 1)) {
                         // We increase order index of
+                        console.log("We increase order index of ", element.doc.description);
                         element.doc.order = element.doc.order + 1;
                         actionDB.put(element.doc, function callback(err, result) {
                             if (err) {
@@ -208,8 +209,9 @@ var ActionBox = React.createClass({
                             }
                         });
 
-                    } else if (element.doc.order <= orderUpdated) {
+                    } else if (element.doc.order === orderUpdated) {
                         //We decrease order index of
+                        console.log("We decrease order index of ", element.doc.description);
                         element.doc.order = element.doc.order - 1;
                         actionDB.put(element.doc, function callback(err, result) {
                             if (err) {
@@ -238,9 +240,9 @@ var ActionBox = React.createClass({
                 data = me.state.data.map(function(element) {
                     var e = element;
                     console.log("orderUpdatedUi", orderUpdatedUi);
-                    if (orderUpdatedUi == 1) {
+                    if (orderUpdatedUi === 1) {
                         console.log("We cannot decrease order index of first item");
-                    } else if (element.order < orderUpdatedUi) {
+                    } else if (element.order === (orderUpdatedUi - 1)) {
                         console.log("Increasing index of", e.description);
                         e.order = element.order + 1;
 
@@ -346,6 +348,27 @@ var ActionBox = React.createClass({
         );
     },
 
+    removeAllActions: function() {
+        //Database
+        actionDB.allDocs({
+            include_docs: true,
+            attachments: true
+        }).then(function(result) {
+            result.rows.forEach(function(row) {
+                actionDB.remove(row.doc);
+            })
+        }).catch(function(err) {
+            console.log(err);
+        });
+
+        //UI
+        var state = this.state;
+        state.data = [];
+        this.setState(state);
+
+
+    },
+
     componentDidMount: function() {
         this.loadActionsFromDatabase()
     },
@@ -363,6 +386,7 @@ var ActionBox = React.createClass({
                               onUserInput={this.handleFormUpdate}/>
                 <GenererHtml data={this.state.data}/>
                 <Importer onDataImported={this.loadActionsFromDatabase}/>
+                <SupprimerToutesLesActions onRemoveAllSubmit={this.removeAllActions}/>
                 <Exporter/>
             </div>
         );
@@ -378,7 +402,7 @@ var ActionDetail = React.createClass({
 
     handleSubmit: function(e) {
         e.preventDefault();
-        this.props.onActionSubmit()
+        this.props.onActionSubmit();
     },
 
     render: function() {
@@ -614,6 +638,7 @@ var Importer = React.createClass({
         );
     }
 });
+
 var Exporter = React.createClass({
     handleSubmit: function(e) {
         e.preventDefault();
@@ -634,6 +659,23 @@ var Exporter = React.createClass({
             <div className="exporter">
                 <form role="form" onSubmit={this.handleSubmit}>
                     <button type="submit" className="btn btn-default">Exporter un plan d'action</button>
+                </form>
+            </div>
+        );
+    }
+});
+
+var SupprimerToutesLesActions = React.createClass({
+    handleSubmit: function(e) {
+        e.preventDefault();
+        this.props.onRemoveAllSubmit();
+    },
+
+    render: function() {
+        return (
+            <div className="exporter">
+                <form role="form" onSubmit={this.handleSubmit}>
+                    <button type="submit" className="btn btn-default">Supprimer toutes les actions</button>
                 </form>
             </div>
         );
