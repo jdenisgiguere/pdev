@@ -278,6 +278,7 @@ var ActionBox = React.createClass({
         //Update database
         actionDB.get(action_id).then(function(doc) {
             orderUpdated = doc.order;
+            console.log("We are going to put action order ", orderUpdated, " down");
         }).then(
             actionDB.allDocs({include_docs: true, descending: true}, function(err, doc) {
                 doc.rows.forEach(function(element) {
@@ -285,7 +286,7 @@ var ActionBox = React.createClass({
                         console.log("We cannot decrease order index of the last item");
                     } else if (element.doc.order === orderUpdated) {
                         //We increase order index of
-                        element.doc.order = element.doc.order - 1;
+                        element.doc.order = element.doc.order + 1;
                         actionDB.put(element.doc, function callback(err, result) {
                             if (err) {
                                 console.error(err)
@@ -293,7 +294,7 @@ var ActionBox = React.createClass({
                         });
                     } else if (element.doc.order === (orderUpdated + 1)) {
                         //We increase order index of
-                        element.doc.order = element.doc.order + 1;
+                        element.doc.order = element.doc.order - 1;
                         actionDB.put(element.doc, function callback(err, result) {
                             if (err) {
                                 console.error(err)
