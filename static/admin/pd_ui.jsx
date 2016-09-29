@@ -160,7 +160,60 @@ var ActionBox = React.createClass({
         var newActions = actions.filter(function(elem) {
             return elem._id !== action_id;
         });
-        this.setState({data: newActions});
+
+        var orderUpdated;
+        var me = this;
+        actionDB.get(action_id).then(function(doc) {
+            orderUpdated = doc.order;
+
+            console.info("Getting order updated is ", orderUpdated);
+
+            return orderUpdated;
+        }).then(
+            function(resp) {
+                actionDB.allDocs({include_docs: true, descending: true}, function(err, doc) {
+                    doc.rows.forEach(function(element) {
+                        if (element.doc.order > orderUpdated) {
+                            console.log("Decrease order index of 1 for action ", element.doc.action);
+                            element.doc.order = element.doc.order - 1;
+                            actionDB.put(element.doc, function callback(err, result) {
+                                if (err) {
+                                    console.error(err)
+                                }
+                            });
+                        } else {
+                            //We don't change order index on removal when index is lower than removed index
+                        }
+                    });
+                });
+                console.info("PouchDB order index updated after removal");
+
+                return true;
+            }
+        ).then(
+            function(resp) {
+                newActions = newActions.map(function(elem) {
+                    console.log("Updating order in state base on orderUpdate = ", orderUpdated);
+                    console.log(elem);
+                    if (elem.order > orderUpdated) {
+                        elem.order = elem.order - 1;
+                        console.log("Descrease state order of action ", elem.description)
+                    } else {
+                        console.log("Keep state order of action ", elem.description)
+                    }
+                    return elem;
+                });
+                console.info("new actions order index are updated");
+            }
+        ).then(
+            function(resp) {
+                me.setState({data: newActions});
+                console.info("new actions order index are update in state!");
+            }(this)
+        ).catch(function(err) {
+            console.log(err);
+        });
+
         deleteAction(action_id);
     },
 
