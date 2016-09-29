@@ -619,10 +619,11 @@ var GenererHtml = React.createClass({
             '</head>',
             '<body>',
             '<div class="container">',
-            '<!-- Table du plan d\'action -->',
+            '<!-- Début de la table du plan d\'action. Copier à partir d\'ici -->',
         ];
         htmlParts.push(ReactDOMServer.renderToStaticMarkup(<ActionPlan data={this.props.data}/>));
-        var moreHtml = ['</div>',
+        var moreHtml = ['<!-- Fin de la table du plan d\'action. Arrêter de copier ici. -->',
+            '</div>',
             '<!-- Latest compiled and minified JavaScript -->',
             '<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>',
             '</body>',
