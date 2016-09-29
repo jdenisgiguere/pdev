@@ -440,8 +440,9 @@ var ActionBox = React.createClass({
                               onUserInput={this.handleFormUpdate}/>
                 <GenererHtml data={this.state.data}/>
                 <Importer onDataImported={this.loadActionsFromDatabase}/>
-                <SupprimerToutesLesActions onRemoveAllSubmit={this.removeAllActions}/>
                 <Exporter/>
+                <SupprimerToutesLesActions onRemoveAllSubmit={this.removeAllActions}/>
+
             </div>
         );
     }
@@ -504,7 +505,7 @@ var ActionDetail = React.createClass({
 
 
                     </div>
-                    <button type="submit" className="btn btn-default">Soumettre</button>
+                    <button type="submit" className="btn btn-default" style={{marginBottom: "48px"}}>Soumettre</button>
                 </form>
 
 
@@ -685,8 +686,14 @@ var Importer = React.createClass({
         return (
             <div className="importer">
                 <form role="form" onSubmit={this.handleSubmit}>
-                    <input type="file" className="form-control" ref="fichier" placeholder="Fichier d'actions"/>
-                    <button type="submit" className="btn btn-default">Importer un plan d'action</button>
+                    <div className="input-group">
+                        <input type="file" className="form-control" ref="fichier" placeholder="Fichier d'actions"/>
+                        <span className="input-group-btn">
+                            <button type="submit" className="btn btn-default">Importer un plan d'action</button>
+                        </span>
+
+                    </div>
+
                 </form>
             </div>
         );
@@ -729,7 +736,7 @@ var SupprimerToutesLesActions = React.createClass({
         return (
             <div className="exporter">
                 <form role="form" onSubmit={this.handleSubmit}>
-                    <button type="submit" className="btn btn-default">Supprimer toutes les actions</button>
+                    <button type="submit" className="btn btn-danger">Supprimer toutes les actions</button>
                 </form>
             </div>
         );
