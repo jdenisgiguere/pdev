@@ -93,7 +93,6 @@ var ActionBox = React.createClass({
                 responsable: '',
                 partenaire: '',
                 frequence: '',
-                cyclique: false,
                 echeance: '',
                 etat: ''
             }
@@ -109,7 +108,6 @@ var ActionBox = React.createClass({
         var responsable = this.state.edit.responsable.trim();
         var partenaire = this.state.edit.partenaire.trim();
         var frequence = this.state.edit.frequence.trim();
-        var cyclique = this.state.edit.cyclique;
         var echeance = this.state.edit.echeance.trim();
         var etat = this.state.edit.etat;
         //TODO do not encode criteria name
@@ -124,7 +122,6 @@ var ActionBox = React.createClass({
             responsable: responsable,
             partenaire: partenaire,
             frequence: frequence,
-            cyclique: cyclique,
             echeance: echeance,
             etat: etat
         };
@@ -134,7 +131,6 @@ var ActionBox = React.createClass({
         state.edit.responsable = '';
         state.edit.partenaire = '';
         state.edit.frequence = '';
-        state.edit.cyclique = false;
         state.edit.echeance = '';
         state.edit.etat = 'planifie';
         this.setState(state);
@@ -235,7 +231,6 @@ var ActionBox = React.createClass({
         state.edit.responsable = refs.responsable.value;
         state.edit.partenaire = refs.partenaire.value;
         state.edit.frequence = refs.frequence.value;
-        state.edit.cyclique = refs.cyclique.checked;
         state.edit.echeance = refs.echeance.value;
         state.edit.etat = refs.etat.value;
         this.setState(state);
@@ -483,10 +478,6 @@ var ActionDetail = React.createClass({
                         <input type="text" className="form-control" placeholder="Fréquence"
                                value={this.props.edit.frequence} ref="frequence" onChange={this.handleChange}
                                id="actionFrequence"/>
-                        <label htmlFor="actionFrequenceCyclique">Est-ce une action récurrente?</label>
-                        <input type="checkbox" className="form-control" placeholder="Récurrence"
-                               checked={this.props.edit.cyclique} ref="cyclique" onChange={this.handleChange}
-                               id="actionFrequenceCyclique"/>
                         <label htmlFor="actionEcheance">Échéancier</label>
                         <input type="text" className="form-control" placeholder="Échéancier"
                                value={this.props.edit.echeance} ref="echeance" onChange={this.handleChange}
