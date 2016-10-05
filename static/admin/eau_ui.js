@@ -113,8 +113,42 @@ var QualiteEauWidget = React.createClass({
     getInitialState: function() {
         return {
             mesure: null,
-            indicateur: "phosphore"
+            indicateur: "phosphore",
+            date: null
         }
+    },
+
+    handleSubmit: function(e) {
+        e.preventDefault();
+        if (!this.state.mesure || !this.state.date) {
+            alert("Veuillez complétez les champs obligatoires")
+            return;
+        }
+        var mesure = {
+            mesure: this.state.mesure,
+            indicateur: this.state.indicateur,
+            date: this.state.date
+        };
+        mesure._id = [mesure.indicateur, mesure.date].join("_");
+
+        rsvlDB.get(mesure._id).then(function(doc) {
+            mesure._rev = doc._rev;
+            //TODO: put if doc exist
+            return rsvlDB.put(mesure);
+        }).then(function(response) {
+            console.log("mesure updated!");
+        }).catch(function(err) {
+            console.log(err);
+        });
+
+        //TODO: put only if get doesn't work...
+        rsvlDB.put(mesure, function callback(err, result) {
+            if (!err) {
+                console.log("Mesure ajoutée!");
+            } else {
+                console.error(err);
+            }
+        });
     },
 
     updateIndicateur: function(indicateurRef) {
@@ -126,6 +160,7 @@ var QualiteEauWidget = React.createClass({
     handleChange: function() {
         var state = this.state;
         state.mesure = this.refs.mesure.value;
+        state.date = this.refs.date.value;
         this.setState(state);
     },
 
@@ -135,11 +170,12 @@ var QualiteEauWidget = React.createClass({
                 <BassinSelect />
                 <IndicateurSelect onIndicateurUpdated={this.updateIndicateur}/>
                 <label>Date de l'acquisition</label>
-                <input type="date" className="form-control" placeholder="Date de l'acquisition"/>
+                <input type="date" className="form-control" placeholder="Date de l'acquisition" ref="date"
+                       onChange={this.handleChange}/>
                 <label>Mesure</label>
                 <input type="text" className="form-control" placeholder="Mesure" ref="mesure"
                        onChange={this.handleChange}/>
-                <button type="submit" className="btn btn-default">Soumettre</button>
+                <button type="submit" className="btn btn-default" onClick={this.handleSubmit}>Soumettre</button>
                 <GenererDiagramme mesure={this.state.indicateur} valeur={this.state.mesure}/>
             </div>
         );
