@@ -151,6 +151,63 @@ var QualiteEauWidget = React.createClass({
         });
     },
 
+    handleExport: function(e) {
+        var rows = [];
+        rows.push("date, indicateur, mesure");
+        e.preventDefault();
+        rsvlDB.allDocs({include_docs: true, descending: true}).then(function(resp) {
+            var row;
+            resp.rows.forEach(function(element) {
+                row = [element.doc.date, element.doc.indicateur, element.doc.mesure].join(", ");
+                rows.push(row)
+            });
+            console.log("Getting mesure from database... done!")
+        }).then(
+            function(res) {
+                var csvContent, blob;
+                csvContent = rows.join("\n");
+                blob = new Blob([csvContent], {type: "text/csv;charset=utf-8"});
+                console.log("Saving CSV...");
+                saveAs(blob, "rsvl.csv");
+            }
+        ).catch(function(err) {
+            console.error(err);
+        });
+
+    },
+
+    handleImport: function(e) {
+        e.preventDefault();
+        PromiseFileReader.readAsText(this.refs.fichier.files[0]).then(function(importText) {
+                var lines, entry, entries, values;
+                entries = [];
+                lines = [];
+
+                lines = importText.split('\n');
+                //Remove header
+                lines.shift();
+                lines.forEach(function(line) {
+                    values = line.split(",");
+                    values = values.map(function(val) {
+                        return val.trim();
+                    });
+                    entry = {date: values[0], indicateur: values[1], mesure: values[2]}
+                    entries.push(entry);
+                });
+
+                return entries;
+            }
+        ).then(function(entries) {
+                rsvlDB.bulkDocs(entries);
+            }
+        ).catch(
+            function(err) {
+                console.log(err)
+            }
+        );
+
+    },
+
     updateIndicateur: function(indicateurRef) {
         var state = this.state;
         state.indicateur = indicateurRef.value;
@@ -176,6 +233,15 @@ var QualiteEauWidget = React.createClass({
                 <input type="text" className="form-control" placeholder="Mesure" ref="mesure"
                        onChange={this.handleChange}/>
                 <button type="submit" className="btn btn-default" onClick={this.handleSubmit}>Soumettre</button>
+                <div className="input-group">
+                    <input type="file" className="form-control" ref="fichier" placeholder="Fichier de mesures"/>
+                    <span className="input-group-btn">
+                            <button type="submit" className="btn btn-default"
+                                    onClick={this.handleImport}>Importer</button>
+                        </span>
+
+                </div>
+                <button type="submit" className="btn btn-default" onClick={this.handleExport}>Exporter</button>
                 <GenererDiagramme mesure={this.state.indicateur} valeur={this.state.mesure}/>
             </div>
         );
