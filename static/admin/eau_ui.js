@@ -102,7 +102,7 @@ var GenererDiagramme = React.createClass({
         return (
             <div className="exporter">
                 <form role="form" onSubmit={this.handleSubmit}>
-                    <button type="submit" className="btn btn-default">Générer le diagramme</button>
+                    <button type="submit" className="btn btn-default">Générer les diagrammes</button>
                 </form>
             </div>
         );
@@ -208,6 +208,17 @@ var QualiteEauWidget = React.createClass({
 
     },
 
+    handleDeleteAll: function(e) {
+        e.preventDefault();
+        rsvlDB.allDocs({include_docs: true, descending: true}).then(function(resp) {
+            var row;
+            resp.rows.forEach(function(element) {
+                rsvlDB.remove(element.doc);
+            });
+            console.log("All measure are del from database... done!")
+        })
+    },
+
     updateIndicateur: function(indicateurRef) {
         var state = this.state;
         state.indicateur = indicateurRef.value;
@@ -243,6 +254,9 @@ var QualiteEauWidget = React.createClass({
                 </div>
                 <button type="submit" className="btn btn-default" onClick={this.handleExport}>Exporter</button>
                 <GenererDiagramme mesure={this.state.indicateur} valeur={this.state.mesure}/>
+                <button type="submit" className="btn btn-danger" onClick={this.handleDeleteAll}>Supprimer toutes les
+                    mesures
+                </button>
             </div>
         );
     }
