@@ -40,13 +40,12 @@ var IndicateurSelect = React.createClass({
 });
 
 var Diagramme = React.createClass({
-    mesureLocationX: function() {
-        return 216;
-    },
-
     render: function() {
+        var symbolSize = 10;
+        var title = "Concentration moyenne en " + this.props.mesure + " en " + this.props.annee;
+
         return (
-            <svg height="220" width="600">
+            <svg height="220" width="600" fontFamily="sans">
                 <defs>
                     <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" style={{stopColor: "#6985FB", stopOpacity: 1}}/>
@@ -54,34 +53,41 @@ var Diagramme = React.createClass({
                     </linearGradient>
                 </defs>
 
+                <g className="titre" transform="translate(50,0)">
+                    <text x="250" y="20" textAnchor="middle" fontSize="16pt">{title}</text>
+                </g>
+
 
                 <g className="echelle" transform="translate(50,80)">
                     <rect width="500" height="100" fill="url(#grad2)"/>
                 </g>
 
-                <g className="mesure" transform="translate(50,80)">
-                    <rect x={CalculateurDiagramme.mesureVersPosition(this.props.mesure, this.props.valeur)} y="50"
-                          height="10" width="10" fill="rgb(255,255,0)"/>
-                </g>
+                <g className="legende" transform="translate(50,0)">
 
-                <g className="legende">
-
-                    <text x="50" y="55" fill="black" textAnchor="middle">Ultra-
-                        <tspan x="50" y="75" textAnchor="middle">oligotrophe</tspan>
+                    <text x="0" y="55" fill="black" textAnchor="middle">Ultra-
+                        <tspan x="0" y="75" textAnchor="middle">oligotrophe</tspan>
                     </text>
-                    <text x="133" y="65" fill="black" textAnchor="middle">Oligotrophe</text>
-                    <path id="oligo-vs-meso" d="M 216 80 L 216 180 Z" stroke="black" strokeWidth="2" fill="none"/>
-                    <text x="216" y="205"
+                    <text x="83" y="65" fill="black" textAnchor="middle">Oligotrophe</text>
+                    <path id="oligo-vs-meso" d="M 174 80 L 174 180 Z" stroke="black" strokeWidth="2" fill="none"/>
+                    <text x="174" y="205"
                           textAnchor="middle">{CalculateurDiagramme.niveauTrophique[this.props.mesure].oligotropheMax}</text>
-                    <text x="300" y="65" fill="black" textAnchor="middle">Mésotrophe</text>
-                    <path id="meso-vs-eu" d="M 382 80 L 382 180 Z" stroke="black" strokeWidth="2" fill="none"/>
-                    <text x="382" y="205"
+                    <text x="250" y="65" fill="black" textAnchor="middle">Mésotrophe</text>
+                    <path id="meso-vs-eu" d="M 346 80 L 346 180 Z" stroke="black" strokeWidth="2" fill="none"/>
+                    <text x="346" y="205"
                           textAnchor="middle">{CalculateurDiagramme.niveauTrophique[this.props.mesure].mesotropheMax}</text>
-                    <text x="466" y="65" fill="black" textAnchor="middle">Eutrophe</text>
-                    <text x="550" y="55" fill="black" textAnchor="middle">Hyper-
-                        <tspan x="550" y="75" textAnchor="middle">eutrophe</tspan>
+                    <text x="416" y="65" fill="black" textAnchor="middle">Eutrophe</text>
+                    <text x="500" y="55" fill="black" textAnchor="middle">Hyper-
+                        <tspan x="500" y="75" textAnchor="middle">eutrophe</tspan>
                     </text>
                 </g>
+
+                <g className="mesure" transform="translate(50,80)">
+                    <rect x={CalculateurDiagramme.mesureVersPosition(this.props.mesure, this.props.valeur) - symbolSize/2.0} y="50"
+                          height={symbolSize} width={symbolSize} fill="rgb(255,255,0)"/>
+                    <text x={CalculateurDiagramme.mesureVersPosition(this.props.mesure, this.props.valeur) - symbolSize/2.0} y="80" fill="rgb(255,255,0)" textAnchor="middle">{this.props.valeur.toFixed(1)}</text>
+
+                </g>
+
 
             </svg>
         );
@@ -91,11 +97,37 @@ var Diagramme = React.createClass({
 var GenererDiagramme = React.createClass({
     handleSubmit: function(e) {
         e.preventDefault();
-        var diagramme = ReactDOMServer.renderToStaticMarkup(<Diagramme mesure={this.props.mesure}
-                                                                       valeur={this.props.valeur}/>);
-        var result = [diagramme,];
-        var blob = new Blob(result, {type: "image/svg+xml;charset=utf-8"});
-        saveAs(blob, "qualite_eau.svg");
+        rsvlDB.allDocs({include_docs: true, descending: true}).then(function(result) {
+            var indicateurParAnnee = {phosphore: {}, chlorophylle: {}};
+            result.rows.forEach(function (row) {
+                var dateMesure = new Date(row.doc.date);
+                var annee = dateMesure.getFullYear();
+                if (indicateurParAnnee[row.doc.indicateur][annee]) {
+                    indicateurParAnnee[row.doc.indicateur][annee].push(row.doc.mesure);
+                } else  {
+                    indicateurParAnnee[row.doc.indicateur][annee] =[row.doc.mesure];
+                }
+
+                console.log ("Mesure de ", row.doc.indicateur, " du ", row.doc.date, " : ", row.doc.mesure);
+            });
+            console.log(indicateurParAnnee);
+
+            Object.keys(indicateurParAnnee.phosphore).forEach(function(annee) {
+                var sum = indicateurParAnnee.phosphore[annee].reduce(function(prec,courant) {
+                    return parseFloat(prec) + parseFloat(courant)});
+                var moyenne = parseFloat(sum) / indicateurParAnnee.phosphore[annee].length;
+                console.log("La moyenne de phosphore pour l'année ", annee, " est ", moyenne);
+                var diagramme = ReactDOMServer.renderToStaticMarkup(<Diagramme mesure={"phosphore"}
+                                                                               valeur={moyenne} annee={annee}/>);
+                var result = [diagramme,];
+                var blob = new Blob(result, {type: "image/svg+xml;charset=utf-8"});
+                var filename = "phosphore_" + annee + ".svg";
+                saveAs(blob, filename);
+
+            });
+        });
+
+
     },
 
     render: function() {
@@ -121,7 +153,7 @@ var QualiteEauWidget = React.createClass({
     handleSubmit: function(e) {
         e.preventDefault();
         if (!this.state.mesure || !this.state.date) {
-            alert("Veuillez complétez les champs obligatoires")
+            alert("Veuillez complétez les champs obligatoires");
             return;
         }
         var mesure = {
