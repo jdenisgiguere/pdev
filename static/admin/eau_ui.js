@@ -82,9 +82,12 @@ var Diagramme = React.createClass({
                 </g>
 
                 <g className="mesure" transform="translate(50,80)">
-                    <rect x={CalculateurDiagramme.mesureVersPosition(this.props.mesure, this.props.valeur) - symbolSize/2.0} y="50"
+                    <rect x={CalculateurDiagramme.mesureVersPosition(this.props.mesure, this.props.valeur) -
+                    symbolSize / 2.0} y="50"
                           height={symbolSize} width={symbolSize} fill="rgb(255,255,0)"/>
-                    <text x={CalculateurDiagramme.mesureVersPosition(this.props.mesure, this.props.valeur) - symbolSize/2.0} y="80" fill="rgb(255,255,0)" textAnchor="middle">{this.props.valeur.toFixed(1)}</text>
+                    <text x={CalculateurDiagramme.mesureVersPosition(this.props.mesure, this.props.valeur) -
+                    symbolSize / 2.0} y="80" fill="rgb(255,255,0)"
+                          textAnchor="middle">{this.props.valeur.toFixed(1)}</text>
 
                 </g>
 
@@ -97,6 +100,8 @@ var Diagramme = React.createClass({
 var GenererDiagramme = React.createClass({
     handleSubmit: function(e) {
         e.preventDefault();
+        var graphiquesRsvlZip = new JSZip();
+        graphiquesRsvlZip.file("lisez-moi.txt", "Graphique du RSVL généré maintenant\n");
         rsvlDB.allDocs({include_docs: true, descending: true}).then(function(result) {
             var indicateurParAnnee = {phosphore: {}, chlorophylle: {}};
             result.rows.forEach(function (row) {
@@ -122,10 +127,17 @@ var GenererDiagramme = React.createClass({
                 var result = [diagramme,];
                 var blob = new Blob(result, {type: "image/svg+xml;charset=utf-8"});
                 var filename = "phosphore_" + annee + ".svg";
-                saveAs(blob, filename);
+                graphiquesRsvlZip.file(filename, blob);
 
             });
-        });
+        }).then(
+            function(res) {
+                graphiquesRsvlZip.generateAsync({type: "blob"})
+                    .then(function(blob) {
+                        saveAs(blob, "graphiques_rsvl.zip");
+                    });
+            }
+        );
 
 
     },
