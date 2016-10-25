@@ -241,8 +241,11 @@ var QualiteEauWidget = React.createClass({
                     values = values.map(function(val) {
                         return val.trim();
                     });
-                    entry = {date: values[0], indicateur: values[1], mesure: values[2]}
-                    entries.push(entry);
+                    if (values.length === 3) {
+                        entry = {date: values[0], indicateur: values[1], mesure: values[2]}
+                        entries.push(entry);
+                    }
+
                 });
 
                 return entries;
