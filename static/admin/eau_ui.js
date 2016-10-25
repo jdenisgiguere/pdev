@@ -104,32 +104,38 @@ var GenererDiagramme = React.createClass({
         graphiquesRsvlZip.file("lisez-moi.txt", "Graphique du RSVL généré maintenant\n");
         rsvlDB.allDocs({include_docs: true, descending: true}).then(function(result) {
             var indicateurParAnnee = {phosphore: {}, chlorophylle: {}};
-            result.rows.forEach(function (row) {
+            result.rows.forEach(function(row) {
                 var dateMesure = new Date(row.doc.date);
                 var annee = dateMesure.getFullYear();
                 if (indicateurParAnnee[row.doc.indicateur][annee]) {
                     indicateurParAnnee[row.doc.indicateur][annee].push(row.doc.mesure);
-                } else  {
-                    indicateurParAnnee[row.doc.indicateur][annee] =[row.doc.mesure];
+                } else {
+                    indicateurParAnnee[row.doc.indicateur][annee] = [row.doc.mesure];
                 }
 
-                console.log ("Mesure de ", row.doc.indicateur, " du ", row.doc.date, " : ", row.doc.mesure);
+                console.log("Mesure de ", row.doc.indicateur, " du ", row.doc.date, " : ", row.doc.mesure);
             });
             console.log(indicateurParAnnee);
 
-            Object.keys(indicateurParAnnee.phosphore).forEach(function(annee) {
-                var sum = indicateurParAnnee.phosphore[annee].reduce(function(prec,courant) {
-                    return parseFloat(prec) + parseFloat(courant)});
-                var moyenne = parseFloat(sum) / indicateurParAnnee.phosphore[annee].length;
-                console.log("La moyenne de phosphore pour l'année ", annee, " est ", moyenne);
-                var diagramme = ReactDOMServer.renderToStaticMarkup(<Diagramme mesure={"phosphore"}
-                                                                               valeur={moyenne} annee={annee}/>);
-                var result = [diagramme,];
-                var blob = new Blob(result, {type: "image/svg+xml;charset=utf-8"});
-                var filename = "phosphore_" + annee + ".svg";
-                graphiquesRsvlZip.file(filename, blob);
+            var indicateursPourGraphique = ["phosphore", "chlorophylle"];
 
+            indicateursPourGraphique.forEach(function(indicateur) {
+                Object.keys(indicateurParAnnee[indicateur]).forEach(function(annee) {
+                    var sum = indicateurParAnnee[indicateur][annee].reduce(function(prec, courant) {
+                        return parseFloat(prec) + parseFloat(courant)
+                    });
+                    var moyenne = parseFloat(sum) / indicateurParAnnee[indicateur][annee].length;
+                    console.log("La moyenne de " + indicateur + " pour l'année ", annee, " est ", moyenne);
+                    var diagramme = ReactDOMServer.renderToStaticMarkup(<Diagramme mesure={indicateur}
+                                                                                   valeur={moyenne} annee={annee}/>);
+                    var result = [diagramme,];
+                    var blob = new Blob(result, {type: "image/svg+xml;charset=utf-8"});
+                    var filename = indicateur + "_" + annee + ".svg";
+                    graphiquesRsvlZip.file(filename, blob);
+
+                });
             });
+
         }).then(
             function(res) {
                 graphiquesRsvlZip.generateAsync({type: "blob"})
