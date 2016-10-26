@@ -1,23 +1,5 @@
 requirejs(['calculateurDiagramme.js']);
 
-
-var BassinSelect = React.createClass({
-    render: function() {
-        return (
-            <div>
-                <form role="form">
-                    <label htmlFor="bassinSelector">Bassin versant</label>
-                    <select className="form-control" id="bassinSelector">
-                        <option value="D'Alembert">lac D'Alembert</option>
-                        <option value="ajouter_un_lac">Ajouter un bassin versant</option>
-                    </select>
-                </form>
-            </div>
-
-        );
-    }
-});
-
 var IndicateurSelect = React.createClass({
     updateIndicateur: function() {
         this.props.onIndicateurUpdated(this.refs.indicateur);
@@ -288,7 +270,6 @@ var QualiteEauWidget = React.createClass({
     render: function() {
         return (
             <div id="qualiteEauWidget">
-                <BassinSelect />
                 <IndicateurSelect onIndicateurUpdated={this.updateIndicateur}/>
                 <label>Date de l'acquisition</label>
                 <input type="date" className="form-control" placeholder="Date de l'acquisition" ref="date"
