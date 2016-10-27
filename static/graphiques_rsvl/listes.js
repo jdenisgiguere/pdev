@@ -1,5 +1,3 @@
-/**
- * Created by jdgiguere on 16-10-17.
- */
-var graphiquePhosphore = ["graphiques_rsvl/demo1.svg", "graphiques_rsvl/demo2.svg", "graphiques_rsvl/demo3.svg"];
-var graphiqueChlorophylle = ["graphiques_rsvl/demo1.svg", "graphiques_rsvl/demo2.svg", "graphiques_rsvl/demo3.svg"];
+
+var graphiquePhosphore = ["graphiques_rsvl/phosphore_2007.svg","graphiques_rsvl/phosphore_2012.svg","graphiques_rsvl/phosphore_2013.svg","graphiques_rsvl/phosphore_2014.svg",];
+var graphiqueChlorophylle = ["graphiques_rsvl/chlorophylle_2007.svg","graphiques_rsvl/chlorophylle_2012.svg","graphiques_rsvl/chlorophylle_2013.svg","graphiques_rsvl/chlorophylle_2014.svg",];
