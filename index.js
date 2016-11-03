@@ -12,8 +12,7 @@ var main = express();
 
 //Static files
 main.use(express.static('static'));
-main.use('/maki', express.static('node_modules/maki'));
-main.use('/bootstrap', express.static('node_modules/bootstrap/dist'));
+//main.use('/maki', express.static('node_modules/maki'));
 
 main.get('/', function(req, res) {
     res.send('Hello world!')
