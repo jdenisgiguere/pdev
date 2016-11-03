@@ -1,4 +1,4 @@
-requirejs(['calculateurDiagramme.js']);
+requirejs(['js/calculateurDiagramme.js']);
 
 var IndicateurSelect = React.createClass({
     updateIndicateur: function() {
@@ -27,7 +27,7 @@ var Diagramme = React.createClass({
         var title = "Concentration moyenne en " + this.props.mesure + " en " + this.props.annee;
 
         return (
-            <svg height="220" width="600" fontFamily="sans">
+            <svg xmlNS="http://www.w3.org/2000/svg" version="1.1" height="220" width="600" fontFamily="sans">
                 <defs>
                     <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" style={{stopColor: "#6985FB", stopOpacity: 1}}/>
@@ -83,7 +83,9 @@ var GenererDiagramme = React.createClass({
     handleSubmit: function(e) {
         e.preventDefault();
         var graphiquesRsvlZip = new JSZip();
-        graphiquesRsvlZip.file("lisez-moi.txt", "Graphique du RSVL généré maintenant\n");
+        var graphiquesRsvlDir = graphiquesRsvlZip.folder("graphiques_rsvl");
+        var graphiquesName = {"phosphore": [], "chlorophylle" : []};
+        graphiquesRsvlDir.file("lisez-moi.txt", "Graphique du RSVL généré maintenant\n");
         rsvlDB.allDocs({include_docs: true, descending: true}).then(function(result) {
             var indicateurParAnnee = {phosphore: {}, chlorophylle: {}};
             result.rows.forEach(function(row) {
@@ -113,13 +115,30 @@ var GenererDiagramme = React.createClass({
                     var result = [diagramme,];
                     var blob = new Blob(result, {type: "image/svg+xml;charset=utf-8"});
                     var filename = indicateur + "_" + annee + ".svg";
-                    graphiquesRsvlZip.file(filename, blob);
+                    graphiquesName[indicateur].push(filename);
+                    graphiquesRsvlDir.file(filename, blob);
 
                 });
             });
 
         }).then(
             function(res) {
+                var listeJsContent = "";
+                if (graphiquesName["phosphore"].length > 0 ) {
+                    listeJsContent = listeJsContent + "\nvar graphiquePhosphore = [";
+                    graphiquesName["phosphore"].forEach( function (filename) {
+                        listeJsContent = listeJsContent + "\"graphiques_rsvl/" + filename + "\","
+                    });
+                    listeJsContent = listeJsContent + "];"
+                }
+                if (graphiquesName["chlorophylle"].length > 0 ) {
+                    listeJsContent = listeJsContent + "\nvar graphiqueChlorophylle = [";
+                    graphiquesName["chlorophylle"].forEach( function (filename) {
+                        listeJsContent = listeJsContent + "\"graphiques_rsvl/" + filename + "\","
+                    });
+                    listeJsContent = listeJsContent + "];"
+                }
+                graphiquesRsvlDir.file("listes.js", listeJsContent);
                 graphiquesRsvlZip.generateAsync({type: "blob"})
                     .then(function(blob) {
                         saveAs(blob, "graphiques_rsvl.zip");
